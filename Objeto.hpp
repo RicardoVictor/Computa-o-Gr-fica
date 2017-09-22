@@ -29,6 +29,7 @@ class Objeto{
     
     protected:
         float matrizBase[4][4];
+        float normal[4];
         vector<struct vertice> vertices;
         vector<struct aresta> arestas;
         vector<struct face> faces;
@@ -54,6 +55,8 @@ class Objeto{
         void espelhoYZ();
         void espelhoXZ();
         void espelhoXY();
+        void calculaNormal(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+        void imprimeNormal();
 };
 
 Objeto::Objeto(){
@@ -170,6 +173,25 @@ void Objeto::espelhoXZ(){
 
 void Objeto::espelhoXY(){
     matrizBase[2][2] = -matrizBase[2][2];
+}
+
+void Objeto::calculaNormal(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3){
+    
+    struct vertice P1, P2, P3;
+    P1.x = x1; P1.y = y1; P1.z = z1;
+    P2.x = x2; P2.y = y2; P2.z = z2;
+    P3.x = x3; P3.y = y3; P3.z = z3;
+
+    normal[0] = (P2.y - P1.y)*(P3.z - P1.z) - ((P2.z - P1.z)*(P3.y - P1.y));
+    normal[1] = (P2.z - P1.z)*(P3.x - P1.x) - ((P2.x - P1.x)*(P3.z - P1.z));
+    normal[2] = (P2.x - P1.x)*(P3.y - P1.y) - ((P2.y - P1.y)*(P3.x - P1.x));
+    normal[3] = 0;
+    
+}
+
+void Objeto::imprimeNormal(){
+    for(int i=0; i<4; i++)
+        printf("normal[%d]: %f\n", i, normal[i]);
 }
 
 #endif
