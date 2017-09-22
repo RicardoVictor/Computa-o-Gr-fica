@@ -57,6 +57,8 @@ class Objeto{
         void espelhoXY();
         void calculaNormal(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
         void imprimeNormal();
+        void normaliza();
+        void espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
 };
 
 Objeto::Objeto(){
@@ -192,6 +194,39 @@ void Objeto::calculaNormal(float x1, float y1, float z1, float x2, float y2, flo
 void Objeto::imprimeNormal(){
     for(int i=0; i<4; i++)
         printf("normal[%d]: %f\n", i, normal[i]);
+}
+
+void Objeto::normaliza(){
+    float modulo;
+    modulo = sqrt(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
+    printf("%f\n", modulo);
+
+    for(int i=0; i<3; i++)
+        normal[i] /= modulo;
+
+}
+
+void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3){
+    this->calculaNormal( x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    this->normaliza();
+
+    float matrizEspelho[4][4];
+
+    for(int i=0; i<4; i++)
+        for(int j=0; j<4; j++)
+                i==j ? matrizEspelho[i][j] = 1 : matrizEspelho[i][j] = 0;
+
+    for(int i=0; i<3; i++)
+        for(int j=0; j<3; j++)
+            matrizEspelho[i][j] -= 2 * normal[i] * normal[j];
+    
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            printf("%f ", matrizEspelho[i][j]);
+        } printf("\n");
+    } printf("\n");
+
+
 }
 
 #endif
