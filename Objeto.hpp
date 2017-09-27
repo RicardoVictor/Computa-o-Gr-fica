@@ -30,6 +30,7 @@ class Objeto{
     protected:
         float matrizBase[4][4];
         float normal[4];
+        float qu[4];
         vector<struct vertice> vertices;
         vector<struct aresta> arestas;
         vector<struct face> faces;
@@ -59,6 +60,7 @@ class Objeto{
         void imprimeNormal();
         void normaliza();
         void espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+        void rotacaoQualquer(double ang, float x1, float y1, float z1, float x2, float y2, float z2);
 };
 
 Objeto::Objeto(){
@@ -207,7 +209,7 @@ void Objeto::normaliza(){
 }
 
 void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3){
-    this->calculaNormal( x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    this->calculaNormal(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     this->normaliza();
 
     float matrizEspelho[4][4];
@@ -227,6 +229,56 @@ void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, f
     } printf("\n");
 
 
+}
+
+void Objeto::rotacaoQualquer(double ang, float x1, float y1, float z1, float x2, float y2, float z2){
+    
+    ang /= 2;
+
+    //vetor U
+    qu[0] = x2 - x1;
+    qu[1] = y2 - y1;
+    qu[2] = z2 - z1;
+
+    //calcula modulo de U
+    float modulo;
+    modulo = sqrt(qu[0]*qu[0] + qu[1]*qu[1] + qu[2]*qu[2]);
+
+    //calcula U/|U|
+    for(int i=0; i<3; i++)
+        qu[i] /= modulo;
+    
+    //calcula u
+    for(int i=0; i<3; i++)
+        qu[i] *= sin(ang*PI/180);
+    qu[3] *= cos(ang*PI/180);
+
+    //matriz L
+    float L[4][4];
+    L[0][0] = qu[3];     L[0][1] = -qu[2];    L[0][2] = qu[1];     L[0][3] = qu[0]; 
+    L[1][0] = qu[2];     L[1][1] = qu[3];     L[1][2] = -qu[0];    L[1][3] = qu[1]; 
+    L[2][0] = -qu[1];    L[2][1] = qu[0];     L[2][2] = qu[3];     L[2][3] = qu[2]; 
+    L[3][0] = -qu[0];    L[3][1] = -qu[1];    L[3][2] = -qu[2];    L[3][3] = qu[3]; 
+
+    //matriz R
+    float R[4][4];
+    R[0][0] = qu[3];     R[0][1] = -qu[2];    R[0][2] = qu[1];     R[0][3] = -qu[0]; 
+    R[1][0] = qu[2];     R[1][1] = qu[3];     R[1][2] = -qu[0];    R[1][3] = -qu[1]; 
+    R[2][0] = -qu[1];    R[2][1] = qu[0];     R[2][2] = qu[3];     R[2][3] = -qu[2]; 
+    R[3][0] = qu[0];     R[3][1] = qu[1];     R[3][2] = qu[2];     R[3][3] = qu[3];
+    
+    //matriz final de rotacao qualquer
+    float matrizRotacao[4][4];
+    for (int i = 0; i < 4; i = i + 1) //linha matriz 1(L) (=4)
+        for (int j = 0; j < 4; j = j + 1) //coluna matriz 2(R) (=4)
+            for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
+                matrizRotacao[i][j] = matrizRotacao[i][j] + L[i][k] * R[k][j];
+
+    for(int i=0; i<4; i++){
+        for(int j=0; j<4; j++){
+            printf("%f ", matrizRotacao[i][j]);
+        } printf("\n");
+    } printf("\n");
 }
 
 #endif
