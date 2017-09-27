@@ -8,7 +8,6 @@ class Cubo:public Objeto{
     public:
         Cubo();
         Cubo(vertice v0, vertice v1, vertice v2, vertice v3, vertice v4, vertice v5, vertice v6, vertice v7);
-        void imprimeVertices();
 };
 
 Cubo::Cubo(){
@@ -43,12 +42,6 @@ Cubo::Cubo(vertice v0, vertice v1, vertice v2, vertice v3, vertice v4, vertice v
     vertices.push_back(v5);
     vertices.push_back(v6);
     vertices.push_back(v7);
-}
-
-void Cubo::imprimeVertices(){
-    for(int i=0; i<vertices.size(); i++){
-        printf("v(%d): %f %f %f\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
-    }
 }
 
 #endif

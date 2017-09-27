@@ -61,6 +61,9 @@ class Objeto{
         void normaliza();
         void espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
         void rotacaoQualquer(double ang, float x1, float y1, float z1, float x2, float y2, float z2);
+        void addVertice(float x, float y, float z);
+        void imprimeVertices();
+        void aplica();
 };
 
 Objeto::Objeto(){
@@ -228,6 +231,11 @@ void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, f
         } printf("\n");
     } printf("\n");
 
+    for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
+        for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
+            for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
+                matrizBase[i][j] += matrizBase[i][k] * matrizEspelho[k][j];
+
 
 }
 
@@ -272,13 +280,39 @@ void Objeto::rotacaoQualquer(double ang, float x1, float y1, float z1, float x2,
     for (int i = 0; i < 4; i = i + 1) //linha matriz 1(L) (=4)
         for (int j = 0; j < 4; j = j + 1) //coluna matriz 2(R) (=4)
             for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
-                matrizRotacao[i][j] = matrizRotacao[i][j] + L[i][k] * R[k][j];
+                matrizRotacao[i][j] += L[i][k] * R[k][j];
 
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
             printf("%f ", matrizRotacao[i][j]);
         } printf("\n");
     } printf("\n");
+
+    for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
+        for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
+            for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
+                matrizBase[i][j] += matrizBase[i][k] * matrizRotacao[k][j];
+}
+
+void Objeto::addVertice(float x, float y, float z){
+    struct vertice P;
+    P.x = x; P.y = y; P.z = z;
+
+    vertices.push_back(P);
+}
+
+void Objeto::imprimeVertices(){
+    for(int i=0; i<vertices.size(); i++){
+        printf("v(%d): %f %f %f\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
+    }
+}
+
+void Objeto::aplica(){
+    for(int k=0; k<vertices.size(); k++){
+        vertices[k].x = matrizBase[0][0]*vertices[k].x + matrizBase[0][1]*vertices[k].y + matrizBase[0][2]*vertices[k].z + matrizBase[0][3];
+        vertices[k].y = matrizBase[1][0]*vertices[k].x + matrizBase[1][1]*vertices[k].y + matrizBase[1][2]*vertices[k].z + matrizBase[1][3];
+        vertices[k].z = matrizBase[2][0]*vertices[k].x + matrizBase[2][1]*vertices[k].y + matrizBase[2][2]*vertices[k].z + matrizBase[2][3];
+    }
 }
 
 #endif
