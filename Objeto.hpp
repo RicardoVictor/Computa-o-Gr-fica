@@ -42,7 +42,9 @@ class Objeto{
         vector<struct aresta> getArestas();
         vector<struct face> getFaces();
         void imprimeMatrizBase();
-        void escala(int Sx, int Sy, int Sz);
+        void imprimeNormal();
+        void imprimeVertices();
+        void escala(float Sx, float Sy, float Sz);
         void rotacaoX(double ang);
         void rotacaoY(double ang);
         void rotacaoZ(double ang);
@@ -57,12 +59,11 @@ class Objeto{
         void espelhoXZ();
         void espelhoXY();
         void calculaNormal(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
-        void imprimeNormal();
         void normaliza();
         void espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
         void rotacaoQualquer(double ang, float x1, float y1, float z1, float x2, float y2, float z2);
         void addVertice(float x, float y, float z);
-        void imprimeVertices();
+        
         void aplica();
 };
 
@@ -98,7 +99,7 @@ void Objeto::imprimeMatrizBase(){
     } printf("\n");
 }
 
-void Objeto::escala(int Sx, int Sy, int Sz){
+void Objeto::escala(float Sx, float Sy, float Sz){
     for (int i=0; i<3; i++){
         matrizBase[i][0] = Sx*matrizBase[i][0];
         matrizBase[i][1] = Sy*matrizBase[i][1];
@@ -166,8 +167,13 @@ void Objeto::cisalhamentoXZ(double ang){
 }
 
 void Objeto::translacao(int Tx, int Ty, int Tz){
-    for (int i=0; i<3; i++)
-        matrizBase[i][3] = Tx*matrizBase[i][0] + Ty*matrizBase[i][1] + Tz*matrizBase[i][2];   
+    //for (int i=0; i<3; i++)
+    //    matrizBase[i][3] = Tx*matrizBase[i][0] + Ty*matrizBase[i][1] + Tz*matrizBase[i][2];   
+    
+    matrizBase[0][3] += Tx;
+    matrizBase[1][3] += Ty;
+    matrizBase[2][3] += Tz;
+    
 }
 
 void Objeto::espelhoYZ(){
@@ -225,16 +231,27 @@ void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, f
         for(int j=0; j<3; j++)
             matrizEspelho[i][j] -= 2 * normal[i] * normal[j];
     
+    printf("matrizEspelho\n");
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
             printf("%f ", matrizEspelho[i][j]);
         } printf("\n");
     } printf("\n");
 
+    float matrizAux[4][4];
+    for (int i = 0; i < 4; i = i + 1)
+        for (int j = 0; j < 4; j = j + 1)
+            matrizAux[i][j] = 0;
+
     for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
         for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
             for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
-                matrizBase[i][j] += matrizBase[i][k] * matrizEspelho[k][j];
+                matrizAux[i][j] += matrizBase[i][k] * matrizEspelho[k][j];
+
+    
+    for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
+        for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
+            matrizBase[i][j] = matrizAux[i][j];
 
 
 }
@@ -304,14 +321,18 @@ void Objeto::addVertice(float x, float y, float z){
 void Objeto::imprimeVertices(){
     for(int i=0; i<vertices.size(); i++){
         printf("v(%d): %f %f %f\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
-    }
+    } printf("\n");
 }
 
 void Objeto::aplica(){
+    float a, b, c;
     for(int k=0; k<vertices.size(); k++){
-        vertices[k].x = matrizBase[0][0]*vertices[k].x + matrizBase[0][1]*vertices[k].y + matrizBase[0][2]*vertices[k].z + matrizBase[0][3];
-        vertices[k].y = matrizBase[1][0]*vertices[k].x + matrizBase[1][1]*vertices[k].y + matrizBase[1][2]*vertices[k].z + matrizBase[1][3];
-        vertices[k].z = matrizBase[2][0]*vertices[k].x + matrizBase[2][1]*vertices[k].y + matrizBase[2][2]*vertices[k].z + matrizBase[2][3];
+        a = matrizBase[0][0]*vertices[k].x + matrizBase[0][1]*vertices[k].y + matrizBase[0][2]*vertices[k].z + matrizBase[0][3];
+        b = matrizBase[1][0]*vertices[k].x + matrizBase[1][1]*vertices[k].y + matrizBase[1][2]*vertices[k].z + matrizBase[1][3];
+        c = matrizBase[2][0]*vertices[k].x + matrizBase[2][1]*vertices[k].y + matrizBase[2][2]*vertices[k].z + matrizBase[2][3];
+        vertices[k].x = a;
+        vertices[k].y = b;
+        vertices[k].z = c;
     }
 }
 
