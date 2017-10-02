@@ -24,31 +24,35 @@ int main(){
 /*
     Teste 1
 */
-/*
+
     //"criando" cubo
     o1->imprimeMatrizBase();
     o1->addVertice(1, 1, 0);
-    o1->addVertice(1, -1, 0);
-    o1->addVertice(-1, -1, 0);
-    o1->addVertice(-1, 1, 0);
-    o1->imprimeVertices();
+    //o1->addVertice(1, -1, 0);
+    //o1->addVertice(-1, -1, 0);
+    //o1->addVertice(-1, 1, 0);
+    //o1->imprimeVertices();
     //rotacao de 45 graus
     o1->rotacaoZ(45);
     o1->imprimeMatrizBase();
     //o1->aplica();
-    o1->imprimeVertices();
+    //o1->imprimeVertices();
     //translacao
     o1->translacao(6, 6, 0);
-    o1->translacao(-6, -6, 0);
+    //o1->translacao(-6, -6, 0);
+    o1->imprimeMatrizBase();
+    //espelho qualquer (30 graus quandrante 1)
+    o1->espelhoQualquer(5, 2.886751, 0, 7, 4.041452, 0, 5, 2.886751, 2);
     o1->imprimeMatrizBase();
     //aplica em todos os pontos/vertices
     o1->aplica();
     o1->imprimeVertices();
-*/
+
 
 /*
     Teste 2
 */
+/*
     //"criando" cubo
     o1->imprimeMatrizBase();
     o1->addVertice(1, 1, 0);
@@ -72,6 +76,7 @@ int main(){
     //aplica em todos os pontos/vertices
     o1->aplica();
     o1->imprimeVertices();
+*/
 
     return 0;
 }

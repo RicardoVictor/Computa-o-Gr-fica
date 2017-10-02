@@ -27,6 +27,7 @@ struct face{
 
 class Objeto{
     
+    //atributos
     protected:
         float matrizBase[4][4];
         float normal[4];
@@ -35,6 +36,7 @@ class Objeto{
         vector<struct aresta> arestas;
         vector<struct face> faces;
         
+    //metodos
     public:
         Objeto();
         //float** getMatrizBase();
@@ -63,7 +65,6 @@ class Objeto{
         void espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
         void rotacaoQualquer(double ang, float x1, float y1, float z1, float x2, float y2, float z2);
         void addVertice(float x, float y, float z);
-        
         void aplica();
 };
 
@@ -92,6 +93,7 @@ vector<struct face> Objeto::getFaces(){
 }
 
 void Objeto::imprimeMatrizBase(){
+    printf("matrizBase\n");
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
              printf("%f ", matrizBase[i][j]);
@@ -203,14 +205,16 @@ void Objeto::calculaNormal(float x1, float y1, float z1, float x2, float y2, flo
 }
 
 void Objeto::imprimeNormal(){
+    printf("normal\n");
     for(int i=0; i<4; i++)
         printf("normal[%d]: %f\n", i, normal[i]);
+    printf("\n");
 }
 
 void Objeto::normaliza(){
     float modulo;
     modulo = sqrt(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
-    printf("%f\n", modulo);
+    //printf("%f\n", modulo);
 
     for(int i=0; i<3; i++)
         normal[i] /= modulo;
@@ -219,7 +223,9 @@ void Objeto::normaliza(){
 
 void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3){
     this->calculaNormal(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    //this->imprimeNormal();
     this->normaliza();
+    //this->imprimeNormal();
 
     float matrizEspelho[4][4];
 
@@ -249,8 +255,8 @@ void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, f
                 matrizAux[i][j] += matrizBase[i][k] * matrizEspelho[k][j];
 
     
-    for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
-        for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
+    for (int i = 0; i < 4; i = i + 1) 
+        for (int j = 0; j < 4; j = j + 1) 
             matrizBase[i][j] = matrizAux[i][j];
 
 
@@ -276,7 +282,7 @@ void Objeto::rotacaoQualquer(double ang, float x1, float y1, float z1, float x2,
     //calcula u
     for(int i=0; i<3; i++)
         qu[i] *= sin(ang*PI/180);
-    qu[3] *= cos(ang*PI/180);
+    qu[3] = cos(ang*PI/180);
 
     //matriz L
     float L[4][4];
@@ -294,21 +300,36 @@ void Objeto::rotacaoQualquer(double ang, float x1, float y1, float z1, float x2,
     
     //matriz final de rotacao qualquer
     float matrizRotacao[4][4];
+    for (int i = 0; i < 4; i = i + 1)
+        for (int j = 0; j < 4; j = j + 1)
+            matrizRotacao[i][j] = 0;
+
     for (int i = 0; i < 4; i = i + 1) //linha matriz 1(L) (=4)
         for (int j = 0; j < 4; j = j + 1) //coluna matriz 2(R) (=4)
             for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
                 matrizRotacao[i][j] += L[i][k] * R[k][j];
 
+    printf("matrizRotacao\n");
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
             printf("%f ", matrizRotacao[i][j]);
         } printf("\n");
     } printf("\n");
 
+    float matrizAux[4][4];
+    for (int i = 0; i < 4; i = i + 1)
+        for (int j = 0; j < 4; j = j + 1)
+            matrizAux[i][j] = 0;
+
     for (int i = 0; i < 4; i = i + 1) //linha matriz 1 (=4)
         for (int j = 0; j < 4; j = j + 1) //coluna matriz 2 (=4)
             for (int k = 0; k < 4; k = k + 1) //coluna matriz 1 e linha matriz 2 (=4)
-                matrizBase[i][j] += matrizBase[i][k] * matrizRotacao[k][j];
+                matrizAux[i][j] += matrizBase[i][k] * matrizRotacao[k][j];
+
+    for (int i = 0; i < 4; i = i + 1) 
+        for (int j = 0; j < 4; j = j + 1) 
+            matrizBase[i][j] = matrizAux[i][j];
+                
 }
 
 void Objeto::addVertice(float x, float y, float z){
