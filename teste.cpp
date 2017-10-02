@@ -24,7 +24,7 @@ int main(){
 /*
     Teste 1
 */
-
+/*
     //"criando" cubo
     o1->imprimeMatrizBase();
     o1->addVertice(1, 1, 0);
@@ -47,7 +47,7 @@ int main(){
     //aplica em todos os pontos/vertices
     o1->aplica();
     o1->imprimeVertices();
-
+*/
 
 /*
     Teste 2
@@ -77,6 +77,21 @@ int main(){
     o1->aplica();
     o1->imprimeVertices();
 */
+
+/*
+    Teste 3
+*/
+    o1->addVertice(5, 5, 0);
+    o1->translacao(0, -3, 0); //distancia do espelho a origem em relacao ao eixo y = 3
+    o1->aplica();
+    o1->inicializaMatrizBase();
+    o1->espelhoQualquer(4, 0, 0, 6, 0, 0, 4, 0, 1);
+    o1->aplica();
+    o1->inicializaMatrizBase();
+    o1->translacao(0, 3, 0);
+    o1->aplica();
+    o1->imprimeVertices();
+
 
     return 0;
 }

@@ -43,6 +43,7 @@ class Objeto{
         vector<struct vertice> getVertices();
         vector<struct aresta> getArestas();
         vector<struct face> getFaces();
+        void inicializaMatrizBase();
         void imprimeMatrizBase();
         void imprimeNormal();
         void imprimeVertices();
@@ -56,7 +57,7 @@ class Objeto{
         void cisalhamentoYZ(double ang);
         void cisalhamentoZX(double ang);
         void cisalhamentoXZ(double ang);
-        void translacao(int Tx, int Ty, int Tz);
+        void translacao(float Tx, float Ty, float Tz);
         void espelhoYZ();
         void espelhoXZ();
         void espelhoXY();
@@ -72,6 +73,14 @@ Objeto::Objeto(){
     for(int i=0; i<4; i++)
         for(int j=0; j<4; j++)
              i==j ? this->matrizBase[i][j] = 1 : this->matrizBase[i][j] = 0;
+}
+
+void Objeto::inicializaMatrizBase(){
+
+    for(int i=0; i<4; i++)
+        for(int j=0; j<4; j++)
+             i==j ? this->matrizBase[i][j] = 1 : this->matrizBase[i][j] = 0;
+
 }
 
 /*
@@ -168,7 +177,7 @@ void Objeto::cisalhamentoXZ(double ang){
         matrizBase[i][0] = matrizBase[i][0] + (matrizBase[i][2] * tan(ang*PI/180));
 }
 
-void Objeto::translacao(int Tx, int Ty, int Tz){
+void Objeto::translacao(float Tx, float Ty, float Tz){
     //for (int i=0; i<3; i++)
     //    matrizBase[i][3] = Tx*matrizBase[i][0] + Ty*matrizBase[i][1] + Tz*matrizBase[i][2];   
     
