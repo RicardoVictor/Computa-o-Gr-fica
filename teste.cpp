@@ -1,4 +1,5 @@
 #include <stdio.h> 
+#include <cstdlib>
 #include "Objeto.hpp"
 #include "Cubo.hpp"
 
@@ -89,40 +90,57 @@ int main(){
     o1->imprimeVertices();
     //Questao 1
     //escala
+    printf("\tQuestao 1\n");
+    printf("matrizEscala\n");
     o1->escala(0.589256, 0.883883, 1.414213);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
     o1->imprimeVertices();
     //Questao 2
+    printf("\tQuestao 2\n");
+    printf("matrizTranslacao\n");
     o1->translacao(-7.071068, 0 , 0);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
+    printf("matrizRotacaoY:135\n");
     o1->rotacaoY(135);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
+    printf("matrizRotacaoX:-35.265\n");
     o1->rotacaoX(-35.265);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
+    printf("matrizRotacaoZ:40\n");
     o1->rotacaoZ(40);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
+    printf("matrizTranslacao\n");
     o1->translacao(60, 50, 0);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->imprimeVertices();
     o1->inicializaMatrizBase();
     //Questao 3
+    printf("\tQuestao 3\n");
+    printf("matrizTranslacao\n");
     o1->translacao(-62.961979, -58.137976, 0);
     o1->aplica();
-    o1->imprimeVertices();
+    o1->imprimeMatrizBase();
     o1->inicializaMatrizBase();
     o1->espelhoQualquer(-0.987354, -2.712627, 4.082452, 4.698460, -1.710102, 0, -4.698460, 1.710098, 0);
     o1->aplica();
-    o1->imprimeVertices();
     o1->inicializaMatrizBase();
+    printf("matrizTranslacao\n");
     o1->translacao(62.961979, 58.137976, 0);
     o1->aplica();
+    o1->imprimeMatrizBase();
     o1->imprimeVertices();
 
-    
+    system("pause");
     return 0;
 }
