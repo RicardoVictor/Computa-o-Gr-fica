@@ -350,7 +350,7 @@ void Objeto::addVertice(float x, float y, float z){
 
 void Objeto::imprimeVertices(){
     for(int i=0; i<vertices.size(); i++){
-        printf("v(%d): %f %f %f\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
+        printf("P%d: %f %f %f\n", i+1, vertices[i].x, vertices[i].y, vertices[i].z);
     } printf("\n");
 }
 

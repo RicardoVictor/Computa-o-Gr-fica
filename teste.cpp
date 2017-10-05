@@ -81,17 +81,48 @@ int main(){
 /*
     Teste 3
 */
-    o1->addVertice(5, 5, 0);
-    o1->translacao(0, -3, 0); //distancia do espelho a origem em relacao ao eixo y = 3
+    
+    o1->addVertice(0, 0, 0);
+    o1->addVertice(0, 0, 5);
+    o1->addVertice(12, 0, 0);
+    o1->addVertice(0, 8, 0);
+    o1->imprimeVertices();
+    //Questao 1
+    //escala
+    o1->escala(0.589256, 0.883883, 1.414213);
     o1->aplica();
     o1->inicializaMatrizBase();
-    o1->espelhoQualquer(4, 0, 0, 6, 0, 0, 4, 0, 1);
+    o1->imprimeVertices();
+    //Questao 2
+    o1->translacao(-7.071068, 0 , 0);
     o1->aplica();
     o1->inicializaMatrizBase();
-    o1->translacao(0, 3, 0);
+    o1->rotacaoY(135);
+    o1->aplica();
+    o1->inicializaMatrizBase();
+    o1->rotacaoX(-35.265);
+    o1->aplica();
+    o1->inicializaMatrizBase();
+    o1->rotacaoZ(40);
+    o1->aplica();
+    o1->inicializaMatrizBase();
+    o1->translacao(60, 50, 0);
+    o1->aplica();
+    o1->imprimeVertices();
+    o1->inicializaMatrizBase();
+    //Questao 3
+    o1->translacao(-62.961979, -58.137976, 0);
+    o1->aplica();
+    o1->imprimeVertices();
+    o1->inicializaMatrizBase();
+    o1->espelhoQualquer(-0.987354, -2.712627, 4.082452, 4.698460, -1.710102, 0, -4.698460, 1.710098, 0);
+    o1->aplica();
+    o1->imprimeVertices();
+    o1->inicializaMatrizBase();
+    o1->translacao(62.961979, 58.137976, 0);
     o1->aplica();
     o1->imprimeVertices();
 
-
+    
     return 0;
 }
