@@ -223,7 +223,7 @@ void Objeto::imprimeNormal(){
 void Objeto::normaliza(){
     float modulo;
     modulo = sqrt(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
-    //printf("%f\n", modulo);
+    printf("modulo: %f\n", modulo);
 
     for(int i=0; i<3; i++)
         normal[i] /= modulo;
@@ -232,9 +232,9 @@ void Objeto::normaliza(){
 
 void Objeto::espelhoQualquer(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3){
     this->calculaNormal(x1, y1, z1, x2, y2, z2, x3, y3, z3);
-    //this->imprimeNormal();
+    this->imprimeNormal();
     this->normaliza();
-    //this->imprimeNormal();
+    this->imprimeNormal();
 
     float matrizEspelho[4][4];
 

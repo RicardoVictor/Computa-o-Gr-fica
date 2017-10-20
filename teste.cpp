@@ -128,19 +128,24 @@ int main(){
     //Questao 3
     printf("\tQuestao 3\n");
     printf("matrizTranslacao\n");
-    o1->translacao(-62.961979, -58.137976, 0);
+    o1->translacao(-67.660439, -56.427876, 0);
     o1->aplica();
     o1->imprimeMatrizBase();
+    o1->imprimeVertices();
     o1->inicializaMatrizBase();
-    o1->espelhoQualquer(-0.987354, -2.712627, 4.082452, 4.698460, -1.710102, 0, -4.698460, 1.710098, 0);
+    o1->espelhoQualquer(-5.685814, -1.002525, 4.082452, 0, 0, 0, -9.396919, 3.420200, 0);
     o1->aplica();
+    o1->imprimeVertices();
     o1->inicializaMatrizBase();
     printf("matrizTranslacao\n");
-    o1->translacao(62.961979, 58.137976, 0);
+    o1->translacao(67.660439, 56.427876, 0);
     o1->aplica();
     o1->imprimeMatrizBase();
     o1->imprimeVertices();
 
+    o1->rotacaoQualquer(30, 4, 8, 2, 5, 2, 3);
+
     system("pause");
+
     return 0;
 }
