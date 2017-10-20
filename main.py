@@ -28,8 +28,7 @@ R2 = o.rotacaoX(-35.264387)
 R3 = o.rotacaoZ(40)
 T2 = o.translacao(60, 50, 0)
 
-M1 = T2 @ R3 @ R2 @ R1 @ T1
-o.aplica(M1)
+o.aplica(T2 @ R3 @ R2 @ R1 @ T1)
 o.imprimirVertices()
 print()
 
@@ -38,6 +37,5 @@ T3 = o.translacao(-67.660444, -56.427876, 0)
 E1 = o.espelhoQualquer(-5.685790, -1.002558, 4.082483, 0, 0, 0, -9.396926, 3.420202, 0)
 T4 = o.translacao(67.660439, 56.427876, 0)
 
-M = T4 @ E1 @ T3
-o.aplica(M)
+o.aplica(T4 @ E1 @ T3)
 o.imprimirVertices()
