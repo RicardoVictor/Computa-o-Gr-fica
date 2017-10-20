@@ -1,4 +1,4 @@
-import numpy as np
+from numpy import dot, array
 import math
 import Vertice
 
@@ -16,7 +16,7 @@ class Objeto:
     def aplica(self, matriz):
         for i in range(len(self.__vertices)):
             vertice = [self.__vertices[i].getX(), self.__vertices[i].getY(), self.__vertices[i].getZ(), 1]
-            vertice = np.dot(matriz, vertice)
+            vertice = dot(matriz, vertice)
 
             self.__vertices[i].setX(vertice[0])
             self.__vertices[i].setY(vertice[1])
@@ -32,7 +32,7 @@ class Objeto:
         matriz[2][2] = Sz
         matriz[3][3] = 1
         
-        return matriz
+        return array(matriz)
 
     def rotacaoX(self, ang):
         matriz = []
@@ -46,7 +46,7 @@ class Objeto:
         matriz[2][2] = math.cos(math.radians(ang))
         matriz[3][3] = 1
 
-        return matriz
+        return array(matriz)
     
     def rotacaoY(self, ang):
         matriz = []
@@ -60,7 +60,7 @@ class Objeto:
         matriz[2][2] = math.cos(math.radians(ang))
         matriz[3][3] = 1
 
-        return matriz
+        return array(matriz)
 
     def rotacaoZ(self, ang):
         matriz = []
@@ -74,7 +74,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz
+        return array(matriz)
     
     def translacao(self, Tx, Ty, Tz):
         matriz = []
@@ -89,7 +89,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz
+        return array(matriz)
 
     def espelhoYZ(self):
         matriz = []
@@ -101,7 +101,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz   
+        return array(matriz)   
 
     def espelhoXZ(self):
         matriz = []
@@ -113,7 +113,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz   
+        return array(matriz) 
 
     def espelhoXY(self):
         matriz = []
@@ -125,7 +125,7 @@ class Objeto:
         matriz[2][2] = -1
         matriz[3][3] = 1
 
-        return matriz    
+        return array(matriz)
 
     def cisalhamentoYX(self, ang):
         matriz = []
@@ -138,7 +138,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def cisalhamentoXY(self, ang):
         matriz = []
@@ -151,7 +151,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def cisalhamentoZY(self, ang):
         matriz = []
@@ -164,7 +164,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def cisalhamentoYZ(self, ang):
         matriz = []
@@ -177,7 +177,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def cisalhamentoZX(self, ang):
         matriz = []
@@ -190,7 +190,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def cisalhamentoXZ(self, ang):
         matriz = []
@@ -203,7 +203,7 @@ class Objeto:
         matriz[2][2] = 1
         matriz[3][3] = 1
 
-        return matriz 
+        return array(matriz)  
 
     def espelhoQualquer(self, x1, y1, z1, x2, y2, z2, x3, y3, z3):
         #normal
@@ -231,7 +231,7 @@ class Objeto:
             for j in range(4):
                 matriz[i][j] -= 2 * normal[i] * normal[j]
         
-        return matriz
+        return array(matriz) 
 
     def rotacaoQualquer(self, ang, x1, y1, z1, x2, y2, z2):
         ang /= 2
@@ -275,4 +275,4 @@ class Objeto:
         matriz[3][2] = 0
         matriz[3][3] = qu[3]**2 + qu[0]**2 + qu[1]**2 + qu[2]**2
         
-        return matriz
+        return array(matriz) 
