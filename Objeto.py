@@ -3,24 +3,27 @@ import math
 import Vertice
 
 class Objeto:
-    __vertices = []
+
+    def __init__(self):
+        self.vertices = []
     
     def addVertice(self, x, y, z):
         vertice = Vertice.Vertice(x, y, z)
-        self.__vertices.append(vertice)
+        self.vertices.append(vertice)
 
     def imprimirVertices(self):
-        for i in range(len(self.__vertices)):
-            print("({:10.6f} {:10.6f} {:10.6f})".format(self.__vertices[i].getX(), self.__vertices[i].getY(), self.__vertices[i].getZ()))
+        for i in range(len(self.vertices)):
+            print("({:10.6f} {:10.6f} {:10.6f} )".format(self.vertices[i].x, self.vertices[i].y, self.vertices[i].z))
+        print()
 
     def aplica(self, matriz):
-        for i in range(len(self.__vertices)):
-            vertice = [self.__vertices[i].getX(), self.__vertices[i].getY(), self.__vertices[i].getZ(), 1]
+        for i in range(len(self.vertices)):
+            vertice = [self.vertices[i].x, self.vertices[i].y, self.vertices[i].z, 1]
             vertice = dot(matriz, vertice)
 
-            self.__vertices[i].setX(vertice[0])
-            self.__vertices[i].setY(vertice[1])
-            self.__vertices[i].setZ(vertice[2])
+            self.vertices[i].x = vertice[0]
+            self.vertices[i].y = vertice[1]
+            self.vertices[i].z = vertice[2]
 
     def escala(self, Sx, Sy, Sz):
         matriz = []
