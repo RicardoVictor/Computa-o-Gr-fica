@@ -6,7 +6,7 @@ def imprimirMatriz(matriz):
         for j in range(4):
             print('{:10.6f} '.format(matriz[i][j]), end="")
         print()
-
+'''
 o = Objeto.Objeto()
 o.addVertice(0, 0, 0)
 o.addVertice(0, 0, 5)
@@ -39,3 +39,5 @@ T4 = o.translacao(67.660439, 56.427876, 0)
 
 o.aplica(T4 @ E1 @ T3)
 o.imprimirVertices()
+'''
+
