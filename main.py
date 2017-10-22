@@ -50,3 +50,7 @@ o.imprimirVertices()
 
 janela = Janela.Janela(30, 5, 5, 8, 8)
 #janela.imprimirTela(8, 8)
+print(o.aura.centro.x)
+print(o.aura.centro.y)
+print(o.aura.centro.z)
+print(o.aura.raio)

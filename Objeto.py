@@ -1,12 +1,17 @@
 from numpy import dot, array
 import math
 import Vertice
+import Aura
 
 class Objeto:
 
     def __init__(self):
         self.vertices = []
-    
+
+    @property
+    def aura(self):
+        return Aura.Aura(self)
+
     def addVertice(self, x, y, z):
         vertice = Vertice.Vertice(x, y, z)
         self.vertices.append(vertice)
