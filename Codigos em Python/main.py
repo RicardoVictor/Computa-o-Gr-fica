@@ -1,4 +1,5 @@
 import Objeto
+import Vertice
 import Camera
 import Janela
 from numpy import dot, array
@@ -41,6 +42,10 @@ T4 = o.translacao(67.660439, 56.427876, 0)
 o.aplica(T4 @ E1 @ T3)
 o.imprimirVertices()
 
+#Eye = Vertice.Vertice(0, 60, 0)
+#LookAt = Vertice.Vertice(100, 60, 0)
+#Vup = Vertice.Vertice(50, 70, 0)
+#camera = Camera.Camera(Eye, LookAt, Vup)
 camera = Camera.Camera(0, 60, 0, 100, 60, 0, 50, 70, 0)
 WC = camera.matrizWC()
 print('Matriz w->c')
@@ -48,9 +53,19 @@ imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-janela = Janela.Janela(30, 5, 5, 8, 8)
-#janela.imprimirTela(8, 8)
+n = 8
+m = 8
+janela = Janela.Janela(30, 5, 5, n, m)
+#janela.imprimirTela(n, m)
 print(o.aura.centro.x)
 print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)
+
+for i in range(n):    
+    for j in range(m):
+        A = janela.tela[i][j].x**2 + janela.tela[i][j].y**2 + janela.tela[i][j].z**2
+        B = -2 * (janela.tela[i][j].x * o.aura.centro.x + janela.tela[i][j].y * o.aura.centro.y + janela.tela[i][j].z * o.aura.centro.z)
+        C = o.aura.centro.x**2 + o.aura.centro.y**2 + o.aura.centro.z**2 - o.aura.raio**2
+        if (B**2 - 4*A*C) >= 0:
+            break
