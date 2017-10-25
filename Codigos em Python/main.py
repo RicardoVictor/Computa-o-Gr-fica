@@ -1,8 +1,9 @@
+from numpy import dot, array
 import Objeto
 import Vertice
 import Camera
-import Janela
-from numpy import dot, array
+import Screen
+import Cenario
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -53,19 +54,15 @@ imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-n = 8
-m = 8
-janela = Janela.Janela(30, 5, 5, n, m)
-#janela.imprimirTela(n, m)
+tela = Screen.Screen(30, 5, 5, 8, 8)
+#tela.imprimirTela()
 print(o.aura.centro.x)
 print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)
 
-for i in range(n):    
-    for j in range(m):
-        A = janela.tela[i][j].x**2 + janela.tela[i][j].y**2 + janela.tela[i][j].z**2
-        B = -2 * (janela.tela[i][j].x * o.aura.centro.x + janela.tela[i][j].y * o.aura.centro.y + janela.tela[i][j].z * o.aura.centro.z)
-        C = o.aura.centro.x**2 + o.aura.centro.y**2 + o.aura.centro.z**2 - o.aura.raio**2
-        if (B**2 - 4*A*C) >= 0:
-            break
+cenario = Cenario.Cenario()
+cenario.addObjeto(o)
+cenario.addCamera(camera)
+cenario.addScreen(tela)
+cenario.ray_casting()
