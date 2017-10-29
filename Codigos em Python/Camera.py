@@ -48,9 +48,7 @@ class Camera:
         self.j.append(self.k[0] * self.i[1] - self.k[1] * self.i[0])
 
     def matrizWC(self):
-        matriz = []
-        for i in range(4):
-            matriz.append([0]*4)
+        matriz = [[0]*4 for i in range(4)]
 
         matriz[0][0] = self.i[0]
         matriz[0][1] = self.i[1]
@@ -72,9 +70,7 @@ class Camera:
         return matriz
 
     def matrizCW(self):
-        matriz = []
-        for i in range(4):
-            matriz.append([0]*4)
+        matriz = [[0]*4 for i in range(4)]
 
         matriz[0][0] = self.i[0]
         matriz[0][1] = self.j[0]
