@@ -32,6 +32,20 @@ class Cenario:
                         if t > 1 and t_min > t:
                             t_min = t
                             k_int = k
-                            print('i:{} j:{} t:{:.6f}'.format(i, j, t))
+                            #print('i:{} j:{} t:{:.6f}'.format(i, j, t))
 
-                #valor final de t(igual a t_min) para determinado Pij e objeto k(igual a k_int)
+                #---valor final de t(igual a t_min) para determinado Pij e objeto k(igual a k_int)
+                
+                v = []
+                v.append(self.screen.screen[i][j].x)
+                v.append(self.screen.screen[i][j].y)
+                v.append(self.screen.screen[i][j].z)
+                
+                mod_v = (v[0]**2 + v[1]**2 + v[2]**2)**0.5
+                
+                for aux in range(3):
+                    v[aux] /= mod_v
+
+                for l in range(len(self.objetos[k_int].faces)):
+                    if (v[0] * self.objetos[k_int].faces[l].normal[0] + v[1] * self.objetos[k_int].faces[l].normal[1] + v[2] * self.objetos[k_int].faces[l].normal[2]) > 0:
+                        pass
