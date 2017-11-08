@@ -1,6 +1,11 @@
 class Cenario:
    
-    def __init__(self):
+    def __init__(self, IaR, IaG, IaB):
+        #iluminação ambiente
+        self.IaR = IaR
+        self.IaG = IaG
+        self.IaB = IaB
+
         self.objetos = []
         self.luz = []
         
@@ -12,6 +17,9 @@ class Cenario:
 
     def addScreen(self, screen):
         self.screen = screen
+
+    def addFonte(self, fonte):
+        self.fonte = fonte
 
     def ray_casting(self):
         
@@ -51,9 +59,7 @@ class Cenario:
                     v_prod_esc_n = v[0] * self.objetos[obj_int].faces[face].normal[0] + v[1] * self.objetos[obj_int].faces[face].normal[1] + v[2] * self.objetos[obj_int].faces[face].normal[2]
                     if v_prod_esc_n > 0:
                         P1_prod_esc_n = self.objetos[obj_int].faces[face].P1.x * self.objetos[obj_int].faces[face].normal[0] + self.objetos[obj_int].faces[face].P1.y * self.objetos[obj_int].faces[face].normal[1] + self.objetos[obj_int].faces[face].P1.z * self.objetos[obj_int].faces[face].normal[2]
-
-                        Pij_prod_esc_n =Pij[0] * self.objetos[obj_int].faces[face].normal[0] + Pij[1] * self.objetos[obj_int].faces[face].normal[1] + Pij[2] * self.objetos[obj_int].faces[face].normal[2]
-              
+                        Pij_prod_esc_n = Pij[0] * self.objetos[obj_int].faces[face].normal[0] + Pij[1] * self.objetos[obj_int].faces[face].normal[1] + Pij[2] * self.objetos[obj_int].faces[face].normal[2]         
                         t_int = P1_prod_esc_n / Pij_prod_esc_n
 
                         # P_int = ponto de intercecao do raio com o plano de determinada face
@@ -93,5 +99,6 @@ class Cenario:
                         v3.append(w3[2] * w1[0] - w3[0] * w1[2])
                         v3.append(w3[0] * w1[1] - w3[1] * w1[0])
 
-                        if (self.objetos[obj_int].faces[face].normal[0] * v1[0]) > 0 and (self.objetos[obj_int].faces[face].normal[1] * v1[1]) > 0 and (self.objetos[obj_int].faces[face].normal[2] * v1[2]) > 0 and (self.objetos[obj_int].faces[face].normal[0] * v2[0]) > 0 and (self.objetos[obj_int].faces[face].normal[1] * v2[1]) > 0 and (self.objetos[obj_int].faces[face].normal[2] * v2[2]) > 0 and (self.objetos[obj_int].faces[face].normal[0] * v3[0]) > 0 and (self.objetos[obj_int].faces[face].normal[1] * v3[1]) > 0 and (self.objetos[obj_int].faces[face].normal[2] * v3[2]) > 0:
-                            pass # "pintar"
+                        if (self.objetos[obj_int].faces[face].normal[0] * v1[0] > 0) and (self.objetos[obj_int].faces[face].normal[0] * v2[0] > 0)  and (self.objetos[obj_int].faces[face].normal[0] * v3[0] > 0):
+                            print(i, j)
+                            #print('normal:',self.objetos[obj_int].faces[face].normal[0], self.objetos[obj_int].faces[face].normal[1], self.objetos[obj_int].faces[face].normal[2] , '\nv1:', v1[0], v1[1], v1[2], 'v2:', v2[0], v2[1], v2[2], 'v3:', v3[0], v3[1], v3[2])

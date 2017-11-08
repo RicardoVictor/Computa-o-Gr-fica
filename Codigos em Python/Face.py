@@ -1,8 +1,9 @@
 class Face:
-    def __init__(self, P1, P2, P3):
+    def __init__(self, P1, P2, P3, material):
         self.P1 = P1
         self.P2 = P2
         self.P3 = P3
+        self. material = material
 
     @property
     def normal(self):
