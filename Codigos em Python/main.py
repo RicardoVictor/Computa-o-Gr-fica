@@ -7,6 +7,8 @@ import Cenario
 import Fonte
 import Textura
 
+
+
 def imprimeMatriz(matriz):
     for i in range(4):
         print('[', end="")
