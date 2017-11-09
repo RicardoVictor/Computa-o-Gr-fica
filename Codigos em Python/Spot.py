@@ -1,6 +1,6 @@
-class Spot(Fonte):
+class Spot():
     
-    def __init__(self, fx, fy, fz, IdR, IdG, IdB, IeR, IeG, IeB, direcao, and_abertura):
+    def __init__(self, fx, fy, fz, IdR, IdG, IdB, IeR, IeG, IeB, direcao, ang_abertura):
         self.fx = fx
         self.fy = fy
         self.fz = fz
@@ -10,4 +10,6 @@ class Spot(Fonte):
         self.IeR = IeR
         self.IeG = IeG
         self.IeB = IeB
+        self.direcao = direcao
+        self.ang_abertura = ang_abertura
     

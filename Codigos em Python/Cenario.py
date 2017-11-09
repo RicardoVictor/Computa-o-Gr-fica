@@ -5,10 +5,18 @@ class Cenario:
         self.IaR = IaR
         self.IaG = IaG
         self.IaB = IaB
-
         self.objetos = []
         self.fontes = []
-        
+        self.background_color = [1, 1, 1]
+
+    @property
+    def background_color(self):
+        return self.__background_color
+
+    @background_color.setter
+    def background_color(self, background_color):
+        self.__background_color = background_color
+
     def addObjeto(self, obj):
         self.objetos.append(obj)
 
@@ -22,7 +30,7 @@ class Cenario:
         self.fontes.append(fonte)
 
     def ray_casting(self):
-        
+        cores = {}
         for i in range(self.screen.n):
             for j in range(self.screen.m):
                 t_min = 9999999
@@ -57,6 +65,7 @@ class Cenario:
 
                 for face in range(len(self.objetos[obj_int].faces)):
                     v_prod_esc_n = v[0] * self.objetos[obj_int].faces[face].normal[0] + v[1] * self.objetos[obj_int].faces[face].normal[1] + v[2] * self.objetos[obj_int].faces[face].normal[2]
+                    #backface culling
                     if v_prod_esc_n < 0:
                         P1_prod_esc_n = self.objetos[obj_int].faces[face].P1.x * self.objetos[obj_int].faces[face].normal[0] + self.objetos[obj_int].faces[face].P1.y * self.objetos[obj_int].faces[face].normal[1] + self.objetos[obj_int].faces[face].P1.z * self.objetos[obj_int].faces[face].normal[2]
                         Pij_prod_esc_n = Pij[0] * self.objetos[obj_int].faces[face].normal[0] + Pij[1] * self.objetos[obj_int].faces[face].normal[1] + Pij[2] * self.objetos[obj_int].faces[face].normal[2]         
@@ -100,8 +109,7 @@ class Cenario:
                         v3.append(w3[0] * w1[1] - w3[1] * w1[0])
 
                         if (self.objetos[obj_int].faces[face].normal[0] * v1[0] > 0) and (self.objetos[obj_int].faces[face].normal[0] * v2[0] > 0)  and (self.objetos[obj_int].faces[face].normal[0] * v3[0] > 0):
-                            print(i, j)
-                            print(face)
+                            #print(face)
                             #print('normal:',self.objetos[obj_int].faces[face].normal[0], self.objetos[obj_int].faces[face].normal[1], self.objetos[obj_int].faces[face].normal[2] , '\nv1:', v1[0], v1[1], v1[2], 'v2:', v2[0], v2[1], v2[2], 'v3:', v3[0], v3[1], v3[2])
                             I_fontes = []
                             I_fontes.append(0)
@@ -154,5 +162,14 @@ class Cenario:
                             Iobs.append(self.objetos[obj_int].faces[face].textura.kaR * self.IaR + I_fontes[0])
                             Iobs.append(self.objetos[obj_int].faces[face].textura.kaG * self.IaG + I_fontes[1])
                             Iobs.append(self.objetos[obj_int].faces[face].textura.kaB * self.IaB + I_fontes[2])
-                            print(I_fontes)
-                            print(Iobs)
+                            #print(I_fontes)
+                            
+                            cores.update({str(i) +' '+ str(j) : Iobs})
+                            #print(i, j)
+                            #print(Iobs)
+        
+        for i in range(self.screen.n):
+            for j in range(self.screen.m):
+                if(str(i) +' '+ str(j) not in cores):
+                    cores.update({str(i) +' '+ str(j) : self.background_color})
+        return cores

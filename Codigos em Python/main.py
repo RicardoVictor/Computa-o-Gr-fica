@@ -4,10 +4,9 @@ import Vertice
 import Camera
 import Screen
 import Cenario
-import Fonte
 import Textura
-
-
+import Pontual
+import Spot
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -93,11 +92,29 @@ print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)'''
 
-luz = Fonte.Fonte(15, 0, -30, 1, 1, 1, 1, 1, 1)
+luz = Pontual.Pontual(15, 0, -30, 1, 1, 1, 1, 1, 1)
 
 cenario = Cenario.Cenario(1, 1, 1)
 cenario.addObjeto(o)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
-cenario.ray_casting()
+cenario.background_color = [4, 1, 2]
+cores = cenario.ray_casting()
+
+#imprime cores nao convertidas
+for i in cores:
+    print(i, cores[i])
+
+'''Convertendo o RGB de cores para valores entre 0 e 1'''
+max_value = -999999
+#descobre maior valor
+for i in cores:
+    if(max_value < max(cores[i])):
+        max_value = max(cores[i])
+#converte cada valor com base no maior
+for i in cores:
+    cores[i] /= max_value
+#imprime cores convertidas
+for i in cores:
+    print(i, cores[i])

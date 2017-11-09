@@ -1,7 +1,4 @@
-from abc import ABC, abstractmethod
-
-class Fonte(ABC):
-    @abstractmethod
+class Pontual():
     def __init__(self, fx, fy, fz, IdR, IdG, IdB, IeR, IeG, IeB):
         self.fx = fx
         self.fy = fy
