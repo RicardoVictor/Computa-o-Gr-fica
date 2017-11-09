@@ -5,7 +5,7 @@ import Camera
 import Screen
 import Cenario
 import Fonte
-import Material
+import Textura
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -22,11 +22,11 @@ o.addVertice(12, 0, 0)
 o.addVertice(0, 8, 0)
 o.imprimirVertices()
 
-material = Material.Material(1, 1, 1, 1, 1, 1, 1, 1, 1)
-o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], material)
-o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], material)
-o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], material)
-o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], material)
+textura = Textura.Textura(1, 1, 1, 1, 1, 1, 1, 1, 1)
+o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura)
+o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura)
+o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura)
+o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura)
 #print(o.faces[3].normal)
 
 #Questao 1
@@ -91,7 +91,7 @@ print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)'''
 
-luz = Fonte.Fonte(1, 1, 1)
+luz = Fonte.Fonte(15, 0, -30, 1, 1, 1, 1, 1, 1)
 
 cenario = Cenario.Cenario(1, 1, 1)
 cenario.addObjeto(o)

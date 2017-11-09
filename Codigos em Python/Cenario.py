@@ -7,7 +7,7 @@ class Cenario:
         self.IaB = IaB
 
         self.objetos = []
-        self.luz = []
+        self.fontes = []
         
     def addObjeto(self, obj):
         self.objetos.append(obj)
@@ -19,7 +19,7 @@ class Cenario:
         self.screen = screen
 
     def addFonte(self, fonte):
-        self.fonte = fonte
+        self.fontes.append(fonte)
 
     def ray_casting(self):
         
@@ -57,7 +57,7 @@ class Cenario:
 
                 for face in range(len(self.objetos[obj_int].faces)):
                     v_prod_esc_n = v[0] * self.objetos[obj_int].faces[face].normal[0] + v[1] * self.objetos[obj_int].faces[face].normal[1] + v[2] * self.objetos[obj_int].faces[face].normal[2]
-                    if v_prod_esc_n > 0:
+                    if v_prod_esc_n < 0:
                         P1_prod_esc_n = self.objetos[obj_int].faces[face].P1.x * self.objetos[obj_int].faces[face].normal[0] + self.objetos[obj_int].faces[face].P1.y * self.objetos[obj_int].faces[face].normal[1] + self.objetos[obj_int].faces[face].P1.z * self.objetos[obj_int].faces[face].normal[2]
                         Pij_prod_esc_n = Pij[0] * self.objetos[obj_int].faces[face].normal[0] + Pij[1] * self.objetos[obj_int].faces[face].normal[1] + Pij[2] * self.objetos[obj_int].faces[face].normal[2]         
                         t_int = P1_prod_esc_n / Pij_prod_esc_n
@@ -101,4 +101,58 @@ class Cenario:
 
                         if (self.objetos[obj_int].faces[face].normal[0] * v1[0] > 0) and (self.objetos[obj_int].faces[face].normal[0] * v2[0] > 0)  and (self.objetos[obj_int].faces[face].normal[0] * v3[0] > 0):
                             print(i, j)
+                            print(face)
                             #print('normal:',self.objetos[obj_int].faces[face].normal[0], self.objetos[obj_int].faces[face].normal[1], self.objetos[obj_int].faces[face].normal[2] , '\nv1:', v1[0], v1[1], v1[2], 'v2:', v2[0], v2[1], v2[2], 'v3:', v3[0], v3[1], v3[2])
+                            I_fontes = []
+                            I_fontes.append(0)
+                            I_fontes.append(0)
+                            I_fontes.append(0)
+                            for fonte in range(len(self.fontes)):
+                                #v2: -P_int unitario
+                                v2 = []
+                                v2.append(-P_int[0])
+                                v2.append(-P_int[1])
+                                v2.append(-P_int[2])
+                                mod_v2 = (v2[0]**2 + v2[1]**2 + v2[2]**2)**0.5
+                                v2[0] /= mod_v2
+                                v2[1] /= mod_v2
+                                v2[2] /= mod_v2
+
+                                #l: vetor (Fonte - P_int) unitario
+                                l = []
+                                l.append(self.fontes[fonte].fx - P_int[0])
+                                l.append(self.fontes[fonte].fy - P_int[1])
+                                l.append(self.fontes[fonte].fz - P_int[2])
+                                mod_l = (l[0]**2 + l[1]**2 + l[2]**2)**0.5
+                                l[0] /= mod_l
+                                l[1] /= mod_l
+                                l[2] /= mod_l
+
+                                #r: 2*n*(l . n) - l
+                                r = []
+                                l_prod_esc_n = l[0] * self.objetos[obj_int].faces[face].normal[0] + l[1] * self.objetos[obj_int].faces[face].normal[1] + l[2] + self.objetos[obj_int].faces[face].normal[2]
+                                r.append(2 * self.objetos[obj_int].faces[face].normal[0] * l_prod_esc_n - l[0])
+                                r.append(2 * self.objetos[obj_int].faces[face].normal[1] * l_prod_esc_n - l[1])
+                                r.append(2 * self.objetos[obj_int].faces[face].normal[2] * l_prod_esc_n - l[2])
+                            
+                                n_prod_esc_l = self.objetos[obj_int].faces[face].normal[0] * l[0] + self.objetos[obj_int].faces[face].normal[1] * l[1] + self.objetos[obj_int].faces[face].normal[2] * l[2]
+                                v2_prod_esc_r = v2[0] * r[0] + v2[1] * r[1] + v2[2] * r[2]
+
+                                '''print(self.objetos[obj_int].faces[face].normal)
+                                print(l)
+                                print(v2)
+                                print(r)'''
+                                if n_prod_esc_l >=0 and v2_prod_esc_r >=0:
+                                    I_fontes[0] += (self.objetos[obj_int].faces[face].textura.kdR * self.fontes[fonte].IdR * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keR * self.fontes[fonte].IeR * v2_prod_esc_r)
+                                    I_fontes[1] += (self.objetos[obj_int].faces[face].textura.kdG * self.fontes[fonte].IdG * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keG * self.fontes[fonte].IeG * v2_prod_esc_r)
+                                    I_fontes[2] += (self.objetos[obj_int].faces[face].textura.kdB * self.fontes[fonte].IdB * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keB * self.fontes[fonte].IeB * v2_prod_esc_r)
+                            
+                                #end_for
+
+                            Iobs = []
+
+                            Iobs.append(self.objetos[obj_int].faces[face].textura.kaR * self.IaR + I_fontes[0])
+                            Iobs.append(self.objetos[obj_int].faces[face].textura.kaG * self.IaG + I_fontes[1])
+                            Iobs.append(self.objetos[obj_int].faces[face].textura.kaB * self.IaB + I_fontes[2])
+                            print(I_fontes)
+                            print(Iobs)

@@ -17,8 +17,8 @@ class Objeto:
         vertice = Vertice.Vertice(x, y, z)
         self.vertices.append(vertice)
 
-    def addFace(self, P1, P2, P3, material):
-        face = Face.Face(P1, P2, P3, material)
+    def addFace(self, P1, P2, P3, textura):
+        face = Face.Face(P1, P2, P3, textura)
         self.faces.append(face)
 
     def imprimirVertices(self):
