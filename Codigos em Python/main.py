@@ -1,3 +1,5 @@
+from numpy import array
+from PIL import Image
 from OpenGL import OpenGL
 import Objeto
 import Vertice
@@ -23,11 +25,14 @@ o.addVertice(12, 0, 0)
 o.addVertice(0, 8, 0)
 o.imprimirVertices()
 
-textura = Textura.Textura(1, 1, 1, 1, 1, 1, 1, 1, 1)
-o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura)
-o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura)
-o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura)
-o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura)
+textura1 = Textura.Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+textura2 = Textura.Textura(190, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+textura3 = Textura.Textura(170, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+textura4 = Textura.Textura(150, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura1)
+o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura2)
+o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura3)
+o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura4)
 #print(o.faces[3].normal)
 
 #Questao 1
@@ -51,11 +56,11 @@ imprimeMatriz(R2)
 R3 = OpenGL.rotacaoZ(40)
 print('R3')
 imprimeMatriz(R3)
-T2 = OpenGL.translacao(60, 50, 0)
+'''T2 = OpenGL.translacao(60, 50, 0)
 print('T2')
 imprimeMatriz(T2)
-
-o.aplica(T2 @ R3 @ R2 @ R1 @ T1)
+'''
+o.aplica(R3 @ R2 @ R1 @ T1)
 print('vertices')
 o.imprimirVertices()
 
@@ -74,37 +79,37 @@ o.aplica(T4 @ E1 @ T3)
 print('vertices')
 o.imprimirVertices()'''
 
-#Eye = Vertice.Vertice(0, 60, 0)
-#LookAt = Vertice.Vertice(100, 60, 0)
-#Vup = Vertice.Vertice(50, 70, 0)
-#camera = Camera.Camera(Eye, LookAt, Vup)
-camera = Camera.Camera(0, 55, 0, 100, 55, 0, 50, 70, 0)
+Eye = Vertice.Vertice(5, 5, 10)
+LookAt = Vertice.Vertice(5, 5, 0)
+Vup = Vertice.Vertice(5, 7, 2)
+camera = Camera.Camera(Eye, LookAt, Vup)
+#camera = Camera.Camera(0, 55, 0, 100, 55, 0, 50, 70, 0)
 WC = camera.matrizWC()
 print('Matriz w->c')
 imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-tela = Screen.Screen(30, 5, 10, 16, 32)
+tela = Screen.Screen(3, 5, 5, 1000, 1000)
 #tela.imprimirTela()
 '''print(o.aura.centro.x)
 print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)'''
 
-luz = Pontual.Pontual(15, 0, -30, 1, 1, 1, 1, 1, 1)
+luz = Pontual.Pontual(10, 10, -5, 1, 1, 1, 1, 1, 1)
 
-cenario = Cenario.Cenario(1, 1, 1)
+cenario = Cenario.Cenario(0.5, 0.5, 0.5)
 cenario.addObjeto(o)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
-cenario.background_color = [4, 1, 2]
+cenario.background_color = [0, 0, 0]
 cores = cenario.ray_casting()
 
 #imprime cores nao convertidas
-for i in cores:
-    print(i, cores[i])
+'''for i in cores:
+    print(i, cores[i])'''
 
 '''Convertendo o RGB de cores para valores entre 0 e 1'''
 max_value = -999999
@@ -114,7 +119,17 @@ for i in cores:
         max_value = max(cores[i])
 #converte cada valor com base no maior
 for i in cores:
-    cores[i] /= max_value
+    cores[i] = array(cores[i])*255 / max_value
 #imprime cores convertidas
-for i in cores:
+'''for i in cores:
     print(i, cores[i])
+'''
+img = Image.open("imagem_1000.jpg")
+pix = img.load()
+
+for i in cores:
+    x = int(i[0:i.find(' ')])
+    y = int(i[i.find(' ')+1:])
+    pix[x, y] = (int(cores[i][0]), int(cores[i][1]), int(cores[i][2]))
+    
+img.save("imagem.jpg")

@@ -151,9 +151,9 @@ class Cenario:
                                 print(v2)
                                 print(r)'''
                                 if n_prod_esc_l >=0 and v2_prod_esc_r >=0:
-                                    I_fontes[0] += (self.objetos[obj_int].faces[face].textura.kdR * self.fontes[fonte].IdR * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keR * self.fontes[fonte].IeR * v2_prod_esc_r)
-                                    I_fontes[1] += (self.objetos[obj_int].faces[face].textura.kdG * self.fontes[fonte].IdG * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keG * self.fontes[fonte].IeG * v2_prod_esc_r)
-                                    I_fontes[2] += (self.objetos[obj_int].faces[face].textura.kdB * self.fontes[fonte].IdB * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keB * self.fontes[fonte].IeB * v2_prod_esc_r)
+                                    I_fontes[0] += (self.objetos[obj_int].faces[face].textura.kdR * self.fontes[fonte].IdR * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keR * self.fontes[fonte].IeR * (v2_prod_esc_r**self.objetos[obj_int].faces[face].textura.m))
+                                    I_fontes[1] += (self.objetos[obj_int].faces[face].textura.kdG * self.fontes[fonte].IdG * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keG * self.fontes[fonte].IeG * (v2_prod_esc_r**self.objetos[obj_int].faces[face].textura.m))
+                                    I_fontes[2] += (self.objetos[obj_int].faces[face].textura.kdB * self.fontes[fonte].IdB * n_prod_esc_l + self.objetos[obj_int].faces[face].textura.keB * self.fontes[fonte].IeB * (v2_prod_esc_r**self.objetos[obj_int].faces[face].textura.m))
                             
                                 #end_for
 
