@@ -90,7 +90,7 @@ imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-tela = Screen.Screen(3, 5, 5, 1000, 1000)
+tela = Screen.Screen(3, 5, 5, 100, 100)
 #tela.imprimirTela()
 '''print(o.aura.centro.x)
 print(o.aura.centro.y)
@@ -124,12 +124,11 @@ for i in cores:
 '''for i in cores:
     print(i, cores[i])
 '''
-img = Image.open("imagem_1000.jpg")
-pix = img.load()
+img = Image.new("RGB", (100, 100))
 
 for i in cores:
     x = int(i[0:i.find(' ')])
     y = int(i[i.find(' ')+1:])
-    pix[x, y] = (int(cores[i][0]), int(cores[i][1]), int(cores[i][2]))
-    
+    img.putpixel((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
+
 img.save("imagem.jpg")
