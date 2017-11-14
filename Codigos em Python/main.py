@@ -29,10 +29,10 @@ textura1 = Textura.Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 textura2 = Textura.Textura(190, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 textura3 = Textura.Textura(170, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 textura4 = Textura.Textura(150, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura1)
+o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura2)
 o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura2)
-o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura3)
-o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura4)
+o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura2)
+o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura2)
 #print(o.faces[3].normal)
 
 #Questao 1
@@ -90,7 +90,7 @@ imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-tela = Screen.Screen(3, 5, 5, 100, 100)
+tela = Screen.Screen(3, 5, 5, 200, 200)
 #tela.imprimirTela()
 '''print(o.aura.centro.x)
 print(o.aura.centro.y)
@@ -111,7 +111,7 @@ cores = cenario.ray_casting()
 '''for i in cores:
     print(i, cores[i])'''
 
-'''Convertendo o RGB de cores para valores entre 0 e 1'''
+'''Convertendo o RGB de cores para valores entre 0 e 255'''
 max_value = -999999
 #descobre maior valor
 for i in cores:
@@ -124,7 +124,7 @@ for i in cores:
 '''for i in cores:
     print(i, cores[i])
 '''
-img = Image.new("RGB", (100, 100))
+img = Image.new("RGB", (200, 200))
 
 for i in cores:
     x = int(i[0:i.find(' ')])

@@ -109,8 +109,12 @@ class Cenario:
                         v3.append(w3[0] * w1[1] - w3[1] * w1[0])
 
                         if (self.objetos[obj_int].faces[face].normal[0] * v1[0] > 0) and (self.objetos[obj_int].faces[face].normal[0] * v2[0] > 0)  and (self.objetos[obj_int].faces[face].normal[0] * v3[0] > 0):
-                            #print(face)
-                            #print('normal:',self.objetos[obj_int].faces[face].normal[0], self.objetos[obj_int].faces[face].normal[1], self.objetos[obj_int].faces[face].normal[2] , '\nv1:', v1[0], v1[1], v1[2], 'v2:', v2[0], v2[1], v2[2], 'v3:', v3[0], v3[1], v3[2])
+                            #print('face:', face)
+                            #print(Pij)
+                            #print(P_int)
+                            #print('t_int:', t_int)
+                            #print('normal:', self.objetos[obj_int].faces[face].normal[0], self.objetos[obj_int].faces[face].normal[1], self.objetos[obj_int].faces[face].normal[2])
+                            #print('v1:', v1[0], v1[1], v1[2], 'v2:', v2[0], v2[1], v2[2], 'v3:', v3[0], v3[1], v3[2]))
                             I_fontes = []
                             I_fontes.append(0)
                             I_fontes.append(0)
