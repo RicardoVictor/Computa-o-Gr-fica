@@ -1,14 +1,13 @@
 from numpy import array
 from PIL import Image
-from OpenGL import OpenGL
-import Objeto
-import Vertice
-import Camera
-import Screen
-import Cenario
-import Textura
-import Pontual
-import Spot
+from transformacoes import *
+from fontes import Pontual
+from Screen import Screen
+from Objeto import Objeto
+from Vertice import Vertice
+from Camera import Camera
+from Cenario import Cenario
+from Textura import Textura
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -18,96 +17,57 @@ def imprimeMatriz(matriz):
         print(']')
     print()
 
-o = Objeto.Objeto()
-o.addVertice(0, 0, 0)
-o.addVertice(0, 0, 5)
-o.addVertice(12, 0, 0)
-o.addVertice(0, 8, 0)
-o.imprimirVertices()
+def converte(valor):
+    return int(valor[0:valor.find('/')])
 
-textura1 = Textura.Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-textura2 = Textura.Textura(190, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-textura3 = Textura.Textura(170, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-textura4 = Textura.Textura(150, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura2)
-o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura2)
-o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura2)
-o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura2)
-#print(o.faces[3].normal)
+obj = Objeto()
+textura = Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+arquivo = "objetos/Microphone.obj"
 
-#Questao 1
-S1 = OpenGL.escala(5*2**0.5/12, 5*2**0.5/8, 2**0.5)
-print('S1')
-imprimeMatriz(S1)
-o.aplica(S1)
-print('vertices')
-o.imprimirVertices()
+#Lendo arquivos .obj
+with open(arquivo) as meu_arquivo:
+    for linha in meu_arquivo:
+        valores = linha.split()
+        
+        if len(valores) == 4 and valores[0] == 'v':
+            obj.addVertice(float(valores[1]), float(valores[2]), float(valores[3]))
+        
+        elif len(valores) == 4 and valores[0] == 'f':
+            P1 = converte(valores[1]) - 1
+            P2 = converte(valores[2]) - 1
+            P3 = converte(valores[3]) - 1
+            obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
+        
+        elif len(valores) == 5 and valores[0] == 'f':
+            P1 = converte(valores[1]) - 1
+            P2 = converte(valores[2]) - 1
+            P3 = converte(valores[3]) - 1
+            P4 = converte(valores[4]) - 1
+            obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
+            obj.addFace(obj.vertices[P1], obj.vertices[P3], obj.vertices[P4], textura)
 
-#Questao 2
-T1 = OpenGL.translacao(-7.07106781187, 0 , 0)
-print('T1')
-imprimeMatriz(T1)
-R1 = OpenGL.rotacaoY(135)
-print('R1')
-imprimeMatriz(R1)
-R2 = OpenGL.rotacaoX(-35.264387)
-print('R2')
-imprimeMatriz(R2)
-R3 = OpenGL.rotacaoZ(40)
-print('R3')
-imprimeMatriz(R3)
-'''T2 = OpenGL.translacao(60, 50, 0)
-print('T2')
-imprimeMatriz(T2)
-'''
-o.aplica(R3 @ R2 @ R1 @ T1)
-print('vertices')
-o.imprimirVertices()
 
-#Questao 3
-'''T3 = OpenGL.translacao(-67.660444, -56.427876, 0)
-print('T3')
-imprimeMatriz(T3)
-E1 = OpenGL.espelhoQualquer(-5.685790, -1.002558, 4.082483, 0, 0, 0, -9.396926, 3.420202, 0)
-print('E1')
-imprimeMatriz(E1)
-T4 = OpenGL.translacao(67.660439, 56.427876, 0)
-print('T4')
-imprimeMatriz(T4)
+Eye = Vertice(0, 150, 20)
+LookAt = Vertice(0, 150, -20)
+Vup = Vertice(0, 170, 0)
+camera = Camera(Eye, LookAt, Vup)
 
-o.aplica(T4 @ E1 @ T3)
-print('vertices')
-o.imprimirVertices()'''
-
-Eye = Vertice.Vertice(5, 5, 10)
-LookAt = Vertice.Vertice(5, 5, 0)
-Vup = Vertice.Vertice(5, 7, 2)
-camera = Camera.Camera(Eye, LookAt, Vup)
-#camera = Camera.Camera(0, 55, 0, 100, 55, 0, 50, 70, 0)
 WC = camera.matrizWC()
-print('Matriz w->c')
-imprimeMatriz(WC)
-o.aplica(WC)
-o.imprimirVertices()
+obj.aplica(WC)
 
-tela = Screen.Screen(3, 5, 5, 200, 200)
-#tela.imprimirTela()
-'''print(o.aura.centro.x)
-print(o.aura.centro.y)
-print(o.aura.centro.z)
-print(o.aura.raio)'''
+tamanho = 100
+tela = Screen(10, 100, 100, tamanho, tamanho)
+luz = Pontual(-10, 10, 50, 1, 1, 1, 1, 1, 1)
 
-luz = Pontual.Pontual(10, 10, -5, 1, 1, 1, 1, 1, 1)
-
-cenario = Cenario.Cenario(0.5, 0.5, 0.5)
-cenario.addObjeto(o)
+cenario = Cenario(0.5, 0.5, 0.5)
+cenario.addObjeto(obj)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
 cenario.background_color = [0, 0, 0]
 cores = cenario.ray_casting()
 
-#imprime cores nao convertidas
+#imprime dicionario de cores
 '''for i in cores:
     print(i, cores[i])'''
 
@@ -120,11 +80,11 @@ for i in cores:
 #converte cada valor com base no maior
 for i in cores:
     cores[i] = array(cores[i])*255 / max_value
-#imprime cores convertidas
+#imprime dicionario de cores convertidas
 '''for i in cores:
     print(i, cores[i])
 '''
-img = Image.new("RGB", (200, 200))
+img = Image.new("RGB", (tamanho, tamanho))
 
 for i in cores:
     x = int(i[0:i.find(' ')])

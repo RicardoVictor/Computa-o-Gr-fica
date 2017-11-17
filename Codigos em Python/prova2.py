@@ -1,14 +1,13 @@
-from PIL import Image
 from numpy import array
-from OpenGL import OpenGL
-import Objeto
-import Vertice
-import Camera
-import Screen
-import Cenario
-import Textura
-import Pontual
-import Spot
+from PIL import Image
+from transformacoes import *
+from fontes import Pontual
+from Screen import Screen
+from Objeto import Objeto
+from Vertice import Vertice
+from Camera import Camera
+from Cenario import Cenario
+from Textura import Textura
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -25,8 +24,8 @@ D = 1
 E = 9
 F = 3
 L = A + B + C + D + E + F
-print(L)
-o = Objeto.Objeto()
+
+o = Objeto()
 o.addVertice(A+10, B+5, 0)
 o.addVertice(A+10+L, B+5, 0)
 o.addVertice(A+10+L/2, B+5+ (L*3**0.5)/2, 0)
@@ -43,15 +42,15 @@ o.addVertice(A+10, B+L, 2*L)
 
 '''Questao 1'''
 
-Eye = Vertice.Vertice(A - 5, B + L, (L*6**0.5)/6)
+Eye = Vertice(A - 5, B + L, (L*6**0.5)/6)
 print('eye:',Eye.x, Eye.y,Eye.z)
-LookAt = Vertice.Vertice(A+10+L/2, B+5+ (L*3**0.5)/6, 0)
-P = Vertice.Vertice(A+10+L/2, B+5+ (L*3**0.5)/12, (L*3**0.5)/12)
+LookAt = Vertice(A+10+L/2, B+5+ (L*3**0.5)/6, 0)
+P = Vertice(A+10+L/2, B+5+ (L*3**0.5)/12, (L*3**0.5)/12)
 print('P:',P.x, P.y,P.z)
 print('look_at:',LookAt.x, LookAt.y,LookAt.z)
-Vup = Vertice.Vertice(A+10+L/2, B+5+ (L*3**0.5)/6, (L*6**0.5)/6)
+Vup = Vertice(A+10+L/2, B+5+ (L*3**0.5)/6, (L*6**0.5)/6)
 print('Vup:',Vup.x, Vup.y,Vup.z)
-camera = Camera.Camera(Eye, P, Vup)
+camera = Camera(Eye, P, Vup)
 
 print('ic: ', camera.i)
 print('jc: ', camera.j)
@@ -69,24 +68,24 @@ o.imprimirVertices()
 
 '''Questao 2'''
 
-textura = Textura.Textura(A/50, B/50, C/50, 3*A/50, 3*B/50, 3*C/50, 3*A/50, 3*B/50, 3*C/50, 1)
+textura = Textura(A/50, B/50, C/50, 3*A/50, 3*B/50, 3*C/50, 3*A/50, 3*B/50, 3*C/50, 1)
 print('textura: ',A/50, B/50, C/50, 3*A/50, 3*B/50, 3*C/50, 3*A/50, 3*B/50, 3*C/50, 1)
 o.addFace(o.vertices[0], o.vertices[2], o.vertices[1], textura)
 o.addFace(o.vertices[0], o.vertices[1], o.vertices[3], textura)
 o.addFace(o.vertices[0], o.vertices[3], o.vertices[2], textura)
 o.addFace(o.vertices[1], o.vertices[2], o.vertices[3], textura)
 
-tela = Screen.Screen(10, 0.1, 0.1, 1, 1)
+tela = Screen(10, 0.1, 0.1, 1, 1)
 #tela.imprimirTela()
 '''print(o.aura.centro.x)
 print(o.aura.centro.y)
 print(o.aura.centro.z)
 print(o.aura.raio)'''
 
-luz = Pontual.Pontual(44.975219,  28.212050,  -0.889703, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7)
+luz = Pontual(44.975219,  28.212050,  -0.889703, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7)
 
 #ambiente
-cenario = Cenario.Cenario(0.4, 0.4, 0.4)
+cenario = Cenario(0.4, 0.4, 0.4)
 cenario.addObjeto(o)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
