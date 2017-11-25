@@ -20,32 +20,36 @@ def imprimeMatriz(matriz):
 def converte(valor):
     return int(valor[0:valor.find('/')])
 
-obj = Objeto()
+#Cria objeto a partide de um arquivo .obj
+def objeto(arquivo, textura):
+    obj = Objeto()
+    with open(arquivo) as meu_arquivo:
+        for linha in meu_arquivo:
+            valores = linha.split()
+            
+            if len(valores) == 4 and valores[0] == 'v':
+                obj.addVertice(float(valores[1]), float(valores[2]), float(valores[3]))
+            
+            elif len(valores) == 4 and valores[0] == 'f':
+                P1 = converte(valores[1]) - 1
+                P2 = converte(valores[2]) - 1
+                P3 = converte(valores[3]) - 1
+                obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
+            
+            elif len(valores) == 5 and valores[0] == 'f':
+                P1 = converte(valores[1]) - 1
+                P2 = converte(valores[2]) - 1
+                P3 = converte(valores[3]) - 1
+                P4 = converte(valores[4]) - 1
+                obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
+                obj.addFace(obj.vertices[P1], obj.vertices[P3], obj.vertices[P4], textura)
+    
+    return obj
+
+
 textura = Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 arquivo = "objetos/Microphone.obj"
-
-#Cria objeto a partide de um arquivo .obj
-with open(arquivo) as meu_arquivo:
-    for linha in meu_arquivo:
-        valores = linha.split()
-        
-        if len(valores) == 4 and valores[0] == 'v':
-            obj.addVertice(float(valores[1]), float(valores[2]), float(valores[3]))
-        
-        elif len(valores) == 4 and valores[0] == 'f':
-            P1 = converte(valores[1]) - 1
-            P2 = converte(valores[2]) - 1
-            P3 = converte(valores[3]) - 1
-            obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
-        
-        elif len(valores) == 5 and valores[0] == 'f':
-            P1 = converte(valores[1]) - 1
-            P2 = converte(valores[2]) - 1
-            P3 = converte(valores[3]) - 1
-            P4 = converte(valores[4]) - 1
-            obj.addFace(obj.vertices[P1], obj.vertices[P2], obj.vertices[P3], textura)
-            obj.addFace(obj.vertices[P1], obj.vertices[P3], obj.vertices[P4], textura)
-
+obj = objeto(arquivo, textura)
 
 Eye = Vertice(0, 150, 20)
 LookAt = Vertice(0, 150, -20)
