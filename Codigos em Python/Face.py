@@ -3,7 +3,7 @@ class Face:
         self.P1 = P1
         self.P2 = P2
         self.P3 = P3
-        self. textura = textura
+        self.textura = textura
 
     @property
     def normal(self):
