@@ -90,7 +90,7 @@ imprimeMatriz(WC)
 o.aplica(WC)
 o.imprimirVertices()
 
-tela = Screen.Screen(3, 5, 5, 200, 200)
+tela = Screen.Screen(3, 5, 5, 1000, 1000)
 #tela.imprimirTela()
 '''print(o.aura.centro.x)
 print(o.aura.centro.y)
@@ -104,7 +104,7 @@ cenario.addObjeto(o)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
-cenario.background_color = [0, 0, 0]
+#cenario.background_color = [100, 100, 200]
 cores = cenario.ray_casting()
 
 #imprime cores nao convertidas
@@ -124,7 +124,7 @@ for i in cores:
 '''for i in cores:
     print(i, cores[i])
 '''
-img = Image.new("RGB", (200, 200))
+img = Image.new("RGB", (1000, 1000))
 
 for i in cores:
     x = int(i[0:i.find(' ')])

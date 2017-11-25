@@ -123,7 +123,7 @@ for i in cores:
     print(i, cores[i])
 
 
-img = Image.new("RGB", (10, 10))
+img = Image.new("RGB", (1, 1))
 
 for i in cores:
     x = int(i[0:i.find(' ')])

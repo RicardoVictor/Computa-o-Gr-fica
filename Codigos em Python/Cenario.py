@@ -7,7 +7,7 @@ class Cenario:
         self.IaB = IaB
         self.objetos = []
         self.fontes = []
-        self.background_color = [1, 1, 1]
+        self.background_color = [0, 0, 0]
 
     @property
     def background_color(self):
