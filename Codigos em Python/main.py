@@ -24,7 +24,7 @@ obj = Objeto()
 textura = Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 arquivo = "objetos/Microphone.obj"
 
-#Lendo arquivos .obj
+#Cria objeto a partide de um arquivo .obj
 with open(arquivo) as meu_arquivo:
     for linha in meu_arquivo:
         valores = linha.split()
@@ -53,21 +53,7 @@ Vup = Vertice(0, 170, 0)
 camera = Camera(Eye, LookAt, Vup)
 
 WC = camera.matrizWC()
-<<<<<<< HEAD
-print('Matriz w->c')
-imprimeMatriz(WC)
-o.aplica(WC)
-o.imprimirVertices()
-
-tela = Screen.Screen(3, 5, 5, 1000, 1000)
-#tela.imprimirTela()
-'''print(o.aura.centro.x)
-print(o.aura.centro.y)
-print(o.aura.centro.z)
-print(o.aura.raio)'''
-=======
 obj.aplica(WC)
->>>>>>> d35f5a982c8eb9ece1701cb8da539981786f8e76
 
 tamanho = 100
 tela = Screen(10, 100, 100, tamanho, tamanho)
