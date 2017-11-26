@@ -119,46 +119,48 @@ def Base():
 
 
 pygame.init()
-display = (800, 600)
+display = (1000, 600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
+
+glLightfv(GL_LIGHT0, GL_POSITION,  (2, 2, 2, 0.0))
+glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
+glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+glLightfv(GL_LIGHT0, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
+glEnable(GL_LIGHT0)
+glEnable(GL_LIGHTING)
+#glEnable(GL_COLOR_MATERIAL)
+glShadeModel(GL_SMOOTH)
+#glEnable(GL_DEPTH_TEST)
+
+
 '''
-fovy
-    Specifies the field of view angle, in degrees, in the y direction.
-aspect
-    Specifies the aspect ratio that determines
-    the field of view in the x direction.
-    The aspect ratio is the ratio of x (width) to y (height).
-zNear
-    Specifies the distance from the viewer to the near clipping plane
-    (always positive).
-zFar
-    Specifies the distance from the viewer to the far clipping plane
-    (always positive).
+fovy:   Specifies the field of view angle, in degrees, in the y direction.
+aspect: Specifies the aspect ratio that determines
+        the field of view in the x direction.
+        The aspect ratio is the ratio of x (width) to y (height).
+zNear:  Specifies the distance from the viewer to the near clipping plane
+        (always positive).
+zFar:   Specifies the distance from the viewer to the far clipping plane
+        (always positive).
 '''
 #gluPerspective(fovy, aspect, zNear, zFar)
 gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
+#glRotate(angle, x, y, z) 
 
-#cubo 
-#speaker
-glTranslatef(0.0, 0.0, -10)
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-#microfone
-'''glTranslatef(0.0, -140, -60)
-'''
-#ampeg
-'''glTranslatef(0.0, 0.0, -10)
-glScale(0.01, 0.01, 0.01)'''
-
-#stage
-'''glTranslatef(1.5, -6, -25)
-'''
-#drums basic
-'''glTranslatef(0, -1, -5)
-'''
-#slayer logo
-'''glTranslatef(-2, -1, -5)
-'''
+glTranslatef(1, -7, -25)
+Objeto('objetos/stage.obj')
+glRotatef(90, 0, 1, 0)
+glTranslate(5, 1, 0)
+Objeto('objetos/drums basic.obj')
+glTranslate(0, 2, -6)
+glRotatef(-90, 0, 1, 0)
+Objeto('objetos/Synthesizer.obj')
+glTranslate(-2, 7, 0)
+glScale(4, 4, 4)
+Objeto('objetos/Slayer logo.obj')
 
 while True:
     for event in pygame.event.get():
@@ -166,6 +168,7 @@ while True:
             pygame.quit()
             quit()
 
+        '''
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 glTranslatef(-0.5, 0, 0)
@@ -192,7 +195,7 @@ while True:
             #girar botao do meio do mouse para baixo
             if event.button == 5:
                 glTranslatef(0, 0, -0.5)
-
+'''
 
     #glRotatef(1, 3, 1, 1)
     
@@ -203,9 +206,6 @@ while True:
     camera_z = MODELVIEW_MATRIX[3][2]
     '''
 
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    Base()
-    Cube()
-    #Objeto("objetos/Slayer logo.obj")
+    #glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     pygame.display.flip()
     pygame.time.wait(10)
