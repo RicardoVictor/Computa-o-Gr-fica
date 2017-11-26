@@ -85,37 +85,127 @@ def Cube():
     glEnd()
 
 
+def Base():
+    color = (0.7, 0.7, 0.7)
+
+    vertices = (
+        (5, -0.01, -5),
+        (5, 0.01, -5),
+        (-5, 0.01, -5),
+        (-5, -0.01, -5),
+        (5, -0.01, 5),
+        (5, 0.01, 5),
+        (-5, -0.01, 5),
+        (-5, 0.01, 5)
+    )
+
+    faces = (
+        (0, 1, 2, 3),
+        (3, 2, 7, 6),
+        (6, 7, 5, 4),
+        (4, 5, 1, 0),
+        (1, 5, 7, 2),
+        (4, 0, 3, 6)
+    )
+
+    glBegin(GL_QUADS)
+    for face in faces:
+        glColor3fv(color)
+        for vertex in face:
+            glVertex3fv(vertices[vertex])
+
+    glEnd()
+
+
 
 pygame.init()
 display = (800, 600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
-gluPerspective(50, (display[0]/display[1]), 0.1, 100.0)
+'''
+fovy
+    Specifies the field of view angle, in degrees, in the y direction.
+aspect
+    Specifies the aspect ratio that determines
+    the field of view in the x direction.
+    The aspect ratio is the ratio of x (width) to y (height).
+zNear
+    Specifies the distance from the viewer to the near clipping plane
+    (always positive).
+zFar
+    Specifies the distance from the viewer to the far clipping plane
+    (always positive).
+'''
+#gluPerspective(fovy, aspect, zNear, zFar)
+gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
 
 #cubo 
 #speaker
-glTranslatef(0.0, 0.0, -5)
+glTranslatef(0.0, 0.0, -10)
 
 #microfone
-'''glTranslatef(0.0, -130, -60)
+'''glTranslatef(0.0, -140, -60)
 '''
 #ampeg
-'''glTranslatef(0.0, 0.0, -5)
-glScale(0.01, 0.01, 0.01)
+'''glTranslatef(0.0, 0.0, -10)
+glScale(0.01, 0.01, 0.01)'''
+
+#stage
+'''glTranslatef(1.5, -6, -25)
 '''
-#todos
-glRotatef(20, 0, 0, 0)
+#drums basic
+'''glTranslatef(0, -1, -5)
+'''
+#slayer logo
+'''glTranslatef(-2, -1, -5)
+'''
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
-    
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                glTranslatef(-0.5, 0, 0)
+            if event.key == pygame.K_RIGHT:
+                glTranslatef(0.5, 0, 0)
+            if event.key == pygame.K_UP:
+                glTranslatef(0, 0.5, 0)
+            if event.key == pygame.K_DOWN:
+                glTranslatef(0, -0.5, 0)
+                
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            #botao esquerdo do mouse
+            if event.button == 1:
+                glTranslate(0, 0, 0.5)
+            #botao do meio do mouse
+            if event.button == 2:
+                glTranslate(0, 0, 0.5)
+            #botao direito do mouse
+            if event.button == 3:
+                glTranslatef(0, 0, -0.5)
+            #girar botao do meio do mouse para cima
+            if event.button == 4:
+                glTranslatef(0, 0, 0.5)
+            #girar botao do meio do mouse para baixo
+            if event.button == 5:
+                glTranslatef(0, 0, -0.5)
+
+
     #glRotatef(1, 3, 1, 1)
+    
+    '''MODELVIEW_MATRIX = glGetDoublev(GL_MODELVIEW_MATRIX)
+    print(MODELVIEW_MATRIX)
+    camera_x = MODELVIEW_MATRIX[3][0]
+    camera_y = MODELVIEW_MATRIX[3][1]
+    camera_z = MODELVIEW_MATRIX[3][2]
+    '''
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    Base()
     Cube()
-    #Objeto("objetos/Microphone.obj")
+    #Objeto("objetos/Slayer logo.obj")
     pygame.display.flip()
-    pygame.time.wait(1000)
+    pygame.time.wait(10)

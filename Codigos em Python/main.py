@@ -1,3 +1,4 @@
+import pygame
 from numpy import array
 from PIL import Image
 from transformacoes import *
@@ -97,3 +98,8 @@ for i in cores:
     img.putpixel((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
 
 img.save("imagem.jpg")
+
+for cor in cores:
+    x = int(i[0:i.find(' ')])
+    y = int(i[i.find(' ')+1:])
+    pygame.Surface.set_at((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
