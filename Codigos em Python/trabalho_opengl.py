@@ -8,7 +8,7 @@ def converte(valor):
 
 def Objeto(arquivo, cor=None):
     if cor is None: 
-        cor = (0.7, 0.7, 0.7)
+        cor = (0.6, 0.6, 0.6)
     
     vertices = []
     faces_triangulares = []
@@ -40,21 +40,21 @@ def Objeto(arquivo, cor=None):
 
     glBegin(GL_TRIANGLES)
     for face in faces_triangulares:
-        glColor3fv(cor)
+        #glColor3fv(cor)
         for vertice in face:
             glVertex3fv(vertices[vertice])
     glEnd()
     
     glBegin(GL_QUADS)
     for face in faces_quadriculares:
-        glColor3fv(cor)
+        #glColor3fv(cor)
         for vertice in face:
             glVertex3fv(vertices[vertice])
     glEnd()
     
 
 def Cube():
-    color = (0.7, 0.7, 0.7)
+    color = (0.6, 0.6, 0.6)
 
     vertices = (
         (1, -1, -1),
@@ -86,7 +86,7 @@ def Cube():
 
 
 def Base():
-    color = (0.7, 0.7, 0.7)
+    color = (0.6, 0.6, 0.6)
 
     vertices = (
         (5, -0.01, -5),
@@ -116,52 +116,65 @@ def Base():
 
     glEnd()
 
+''' Variaveis de entrada '''
+#glRotate(angle, x, y, z) 
+#gluPerspective(ang, aspect, zNear, zFar)
 
-
+''' Inicio '''
 pygame.init()
 display = (1000, 600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
-
+''' Iluminacao '''
 glLightfv(GL_LIGHT0, GL_POSITION,  (2, 2, 2, 0.0))
-glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
-glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+glLightfv(GL_LIGHT0, GL_AMBIENT, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT0, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
 glEnable(GL_LIGHT0)
 glEnable(GL_LIGHTING)
 #glEnable(GL_COLOR_MATERIAL)
 glShadeModel(GL_SMOOTH)
+#glShadeModel(GL_FLAT)
 #glEnable(GL_DEPTH_TEST)
 
 
-'''
-fovy:   Specifies the field of view angle, in degrees, in the y direction.
-aspect: Specifies the aspect ratio that determines
-        the field of view in the x direction.
-        The aspect ratio is the ratio of x (width) to y (height).
-zNear:  Specifies the distance from the viewer to the near clipping plane
-        (always positive).
-zFar:   Specifies the distance from the viewer to the far clipping plane
-        (always positive).
-'''
-#gluPerspective(fovy, aspect, zNear, zFar)
 gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
-#glRotate(angle, x, y, z) 
-
 glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
+''' Transformacoes '''
+''' Material '''
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.5, 0.5, 0.5, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glTranslatef(1, -7, -25)
 Objeto('objetos/stage.obj')
+
 glRotatef(90, 0, 1, 0)
 glTranslate(5, 1, 0)
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0, 0, 0.03, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0, 0, 0.03, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 Objeto('objetos/drums basic.obj')
+
 glTranslate(0, 2, -6)
 glRotatef(-90, 0, 1, 0)
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 Objeto('objetos/Synthesizer.obj')
+
 glTranslate(-2, 7, 0)
 glScale(4, 4, 4)
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.5, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.5, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 Objeto('objetos/Slayer logo.obj')
 
+''' Loop '''
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

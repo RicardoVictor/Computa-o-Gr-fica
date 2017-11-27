@@ -47,25 +47,45 @@ def objeto(arquivo, textura):
     
     return obj
 
+piramide = Objeto()
+piramide.addVertice(0, 0, 0)
+piramide.addVertice(0, 0, 5)
+piramide.addVertice(12, 0, 0)
+piramide.addVertice(0, 8, 0)
 
-textura = Textura(210, 120, 100, 170, 120, 100, 1, 1, 1, 2)
-arquivo = "objetos/Microphone.obj"
-obj = objeto(arquivo, textura)
+S1 = escala(5*2**0.5/12, 5*2**0.5/8, 2**0.5)
+T1 = translacao(-7.07106781187, 0 , 0)
+R1 = rotacaoY(135)
+R2 = rotacaoX(-35.264387)
+R3 = rotacaoZ(40)
 
-Eye = Vertice(0, 150, 20)
-LookAt = Vertice(0, 150, -20)
-Vup = Vertice(0, 170, 0)
+piramide.aplica(R3 @ R2 @ R1 @ T1 @ S1)
+
+textura = Textura(190, 120, 100, 170, 120, 100, 1, 1, 1, 2)
+
+piramide.addFace(piramide.vertices[0], piramide.vertices[1], piramide.vertices[3], textura)
+piramide.addFace(piramide.vertices[0], piramide.vertices[3], piramide.vertices[2], textura)
+piramide.addFace(piramide.vertices[0], piramide.vertices[2], piramide.vertices[1], textura)
+piramide.addFace(piramide.vertices[1], piramide.vertices[2], piramide.vertices[3], textura)
+
+
+#arquivo = "objetos/Microphone.obj"
+#obj = objeto(arquivo, textura)
+Eye = Vertice(5, 5, 10)
+LookAt = Vertice(5, 5, 0)
+Vup = Vertice(5, 7, 2)
 camera = Camera(Eye, LookAt, Vup)
 
 WC = camera.matrizWC()
-obj.aplica(WC)
+#obj.aplica(WC)
+piramide.aplica(WC)
 
-tamanho = 100
-tela = Screen(10, 100, 100, tamanho, tamanho)
-luz = Pontual(-10, 10, 50, 1, 1, 1, 1, 1, 1)
+tamanho = 300
+tela = Screen(5, 10, 10, tamanho, tamanho)
+luz = Pontual(10, 10, 10, 1, 1, 1, 1, 1, 1)
 
 cenario = Cenario(0.5, 0.5, 0.5)
-cenario.addObjeto(obj)
+cenario.addObjeto(piramide)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
@@ -98,8 +118,3 @@ for i in cores:
     img.putpixel((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
 
 img.save("imagem.jpg")
-
-for cor in cores:
-    x = int(i[0:i.find(' ')])
-    y = int(i[i.find(' ')+1:])
-    pygame.Surface.set_at((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
