@@ -84,6 +84,105 @@ def Cube():
 
     glEnd()
 
+def Cilindro():
+    n = 2.41421
+
+    vertices = (
+        (n, 0, 1),
+        (1, 0, n),
+        (-n, 0, 1),
+        (-1, 0, n),
+        (-n, 0, -1),
+        (-1, 0, -n),
+        (n, 0, -1),
+        (1, 0, -n),
+        (n, 10, 1),
+        (1, 10, n),
+        (-n, 10, 1),
+        (-1, 10, n),
+        (-n, 10, -1),
+        (-1, 10, -n),
+        (n, 10, -1),
+        (1, 10, -n)   
+    )
+    glBegin(GL_POLYGON)
+    glVertex3fv(vertices[0])
+    glVertex3fv(vertices[1])
+    glVertex3fv(vertices[2])
+    glVertex3fv(vertices[3])
+    glVertex3fv(vertices[4])
+    glVertex3fv(vertices[5])
+    glVertex3fv(vertices[6])
+    glVertex3fv(vertices[7])
+    glEnd()
+    
+    glBegin(GL_POLYGON)
+    glVertex3fv(vertices[15])
+    glVertex3fv(vertices[14])
+    glVertex3fv(vertices[13])
+    glVertex3fv(vertices[12])
+    glVertex3fv(vertices[11])
+    glVertex3fv(vertices[10])
+    glVertex3fv(vertices[9])
+    glVertex3fv(vertices[8])
+    glEnd()
+
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[0])
+    glVertex3fv(vertices[8])
+    glVertex3fv(vertices[9])
+    glVertex3fv(vertices[1])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[1])
+    glVertex3fv(vertices[9])
+    glVertex3fv(vertices[10])
+    glVertex3fv(vertices[2])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[2])
+    glVertex3fv(vertices[10])
+    glVertex3fv(vertices[11])
+    glVertex3fv(vertices[3])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[3])
+    glVertex3fv(vertices[11])
+    glVertex3fv(vertices[12])
+    glVertex3fv(vertices[4])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[4])
+    glVertex3fv(vertices[12])
+    glVertex3fv(vertices[13])
+    glVertex3fv(vertices[5])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[5])
+    glVertex3fv(vertices[13])
+    glVertex3fv(vertices[14])
+    glVertex3fv(vertices[6])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[6])
+    glVertex3fv(vertices[14])
+    glVertex3fv(vertices[15])
+    glVertex3fv(vertices[7])
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    glVertex3fv(vertices[7])
+    glVertex3fv(vertices[15])
+    glVertex3fv(vertices[8])
+    glVertex3fv(vertices[0])
+    glEnd()
 
 def Base():
     color = (0.6, 0.6, 0.6)
@@ -173,6 +272,16 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.5, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 Objeto('objetos/Slayer logo.obj')
+
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glRotatef(45, 0, 0, 1)
+glScalef(0.005, 0.1, 0.005)
+glTranslatef(-70, -30, -3)
+Cilindro()
+
 
 ''' Loop '''
 while True:

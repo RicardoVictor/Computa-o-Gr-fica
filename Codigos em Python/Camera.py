@@ -1,4 +1,4 @@
-import Vertice
+from Vertice import Vertice
 
 class Camera:
 
@@ -9,14 +9,15 @@ class Camera:
             self.k = []
             self.Eye = xEye
             self.LookAt = yEye
-            self.Vup = zEye
+            self.Avup = zEye
+            self.Vup = Vertice(self.Avup.x - self.Eye.x, self.Avup.y - self.Eye.y, self.Avup.z - self.Eye.z)
         else:        
             self.i = []
             self.j = []
             self.k = []
-            self.Eye = Vertice.Vertice(xEye, yEye, zEye)
-            self.LookAt = Vertice.Vertice(xLookAt, yLookAt, zLookAt)
-            self.Vup = Vertice.Vertice(xAvup - xEye, yAvup - yEye, zAvup - zEye)
+            self.Eye = Vertice(xEye, yEye, zEye)
+            self.LookAt = Vertice(xLookAt, yLookAt, zLookAt)
+            self.Vup = Vertice(xAvup - xEye, yAvup - yEye, zAvup - zEye)
 
         self.calcula_k()
         self.calcula_i()
