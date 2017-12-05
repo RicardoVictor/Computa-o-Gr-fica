@@ -9,6 +9,7 @@ from Vertice import Vertice
 from Camera import Camera
 from Cenario import Cenario
 from Textura import Textura
+from ray_casting import renderizar
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -90,7 +91,7 @@ cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
 #cenario.background_color = [100, 100, 200]
-cores = cenario.ray_casting()
+cores = renderizar(cenario)
 
 #imprime dicionario de cores
 '''for i in cores:
