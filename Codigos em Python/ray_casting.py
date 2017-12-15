@@ -33,10 +33,13 @@ def renderizar(cenario):
                 v = normalizar(v)
 
                 for face in range(len(cenario.objetos[obj_int].faces)):
+                    #v_prod_esc_n = produto_escalar(v, cenario.objetos[obj_int].faces[face].normal)
                     v_prod_esc_n = v[0] * cenario.objetos[obj_int].faces[face].normal[0] + v[1] * cenario.objetos[obj_int].faces[face].normal[1] + v[2] * cenario.objetos[obj_int].faces[face].normal[2]
                     #backface culling
                     if v_prod_esc_n < 0:
+                        #P1_prod_esc_n = produto_escalar(cenario.objetos[obj_int].faces[face].P1, cenario.objetos[obj_int].faces[face].normal)
                         P1_prod_esc_n = cenario.objetos[obj_int].faces[face].P1.x * cenario.objetos[obj_int].faces[face].normal[0] + cenario.objetos[obj_int].faces[face].P1.y * cenario.objetos[obj_int].faces[face].normal[1] + cenario.objetos[obj_int].faces[face].P1.z * cenario.objetos[obj_int].faces[face].normal[2]
+                        #Pij_prod_esc_n = produto_escalar(Pij, cenario.objetos[obj_int].faces[face].normal)
                         Pij_prod_esc_n = Pij[0] * cenario.objetos[obj_int].faces[face].normal[0] + Pij[1] * cenario.objetos[obj_int].faces[face].normal[1] + Pij[2] * cenario.objetos[obj_int].faces[face].normal[2]         
                         t_int = P1_prod_esc_n / Pij_prod_esc_n
 
@@ -105,12 +108,15 @@ def renderizar(cenario):
                                 
                                 #r: 2*n*(l . n) - l
                                 r = []
+                                #l_prod_esc_n = produto_escalar(l, cenario.objetos[obj_int].faces[face].normal)
                                 l_prod_esc_n = l[0] * cenario.objetos[obj_int].faces[face].normal[0] + l[1] * cenario.objetos[obj_int].faces[face].normal[1] + l[2] + cenario.objetos[obj_int].faces[face].normal[2]
                                 r.append(2 * cenario.objetos[obj_int].faces[face].normal[0] * l_prod_esc_n - l[0])
                                 r.append(2 * cenario.objetos[obj_int].faces[face].normal[1] * l_prod_esc_n - l[1])
                                 r.append(2 * cenario.objetos[obj_int].faces[face].normal[2] * l_prod_esc_n - l[2])
                             
+                                #n_prod_esc_l = produto_escalar(cenario.objetos[obj_int].faces[face].normal, l)
                                 n_prod_esc_l = cenario.objetos[obj_int].faces[face].normal[0] * l[0] + cenario.objetos[obj_int].faces[face].normal[1] * l[1] + cenario.objetos[obj_int].faces[face].normal[2] * l[2]
+                                #v2_prod_esc_r = produto_escalar(v2, r)
                                 v2_prod_esc_r = v2[0] * r[0] + v2[1] * r[1] + v2[2] * r[2]
 
                                 #print(cenario.objetos[obj_int].faces[face].normal)
@@ -122,10 +128,9 @@ def renderizar(cenario):
                                     I_fontes[1] += (cenario.objetos[obj_int].faces[face].textura.kdG * cenario.fontes[fonte].IdG * n_prod_esc_l + cenario.objetos[obj_int].faces[face].textura.keG * cenario.fontes[fonte].IeG * (v2_prod_esc_r**cenario.objetos[obj_int].faces[face].textura.m))
                                     I_fontes[2] += (cenario.objetos[obj_int].faces[face].textura.kdB * cenario.fontes[fonte].IdB * n_prod_esc_l + cenario.objetos[obj_int].faces[face].textura.keB * cenario.fontes[fonte].IeB * (v2_prod_esc_r**cenario.objetos[obj_int].faces[face].textura.m))
                             
-                                #end_for
+                            #end_for
 
                             Iobs = []
-
                             Iobs.append(cenario.objetos[obj_int].faces[face].textura.kaR * cenario.IaR + I_fontes[0])
                             Iobs.append(cenario.objetos[obj_int].faces[face].textura.kaG * cenario.IaG + I_fontes[1])
                             Iobs.append(cenario.objetos[obj_int].faces[face].textura.kaB * cenario.IaB + I_fontes[2])
@@ -134,7 +139,7 @@ def renderizar(cenario):
                             cores.update({str(i) +' '+ str(j) : Iobs})
                             #print(i, j)
                             #print(Iobs)
-        
+
         for i in range(cenario.screen.n):
             for j in range(cenario.screen.m):
                 if(str(i) +' '+ str(j) not in cores):

@@ -54,13 +54,21 @@ piramide.addVertice(0, 0, 5)
 piramide.addVertice(12, 0, 0)
 piramide.addVertice(0, 8, 0)
 
+piramide2 = Objeto()
+piramide2.addVertice(0, 0, 0)
+piramide2.addVertice(0, 0, 5)
+piramide2.addVertice(12, 0, 0)
+piramide2.addVertice(0, 8, 0)
+
 S1 = escala(5*2**0.5/12, 5*2**0.5/8, 2**0.5)
 T1 = translacao(-7.07106781187, 0 , 0)
 R1 = rotacaoY(135)
 R2 = rotacaoX(-35.264387)
 R3 = rotacaoZ(40)
+T2 = translacao(3, 0, 0)
 
 piramide.aplica(R3 @ R2 @ R1 @ T1 @ S1)
+piramide2.aplica(T2 @ R3 @ R2 @ R1 @ T1 @ S1)
 
 textura = Textura(190, 120, 100, 170, 120, 100, 1, 1, 1, 2)
 
@@ -69,24 +77,29 @@ piramide.addFace(piramide.vertices[0], piramide.vertices[3], piramide.vertices[2
 piramide.addFace(piramide.vertices[0], piramide.vertices[2], piramide.vertices[1], textura)
 piramide.addFace(piramide.vertices[1], piramide.vertices[2], piramide.vertices[3], textura)
 
+piramide2.addFace(piramide2.vertices[0], piramide2.vertices[1], piramide2.vertices[3], textura)
+piramide2.addFace(piramide2.vertices[0], piramide2.vertices[3], piramide2.vertices[2], textura)
+piramide2.addFace(piramide2.vertices[0], piramide2.vertices[2], piramide2.vertices[1], textura)
+piramide2.addFace(piramide2.vertices[1], piramide2.vertices[2], piramide2.vertices[3], textura)
 
 #arquivo = "objetos/Microphone.obj"
 #obj = objeto(arquivo, textura)
 Eye = Vertice(5, 5, 10)
 LookAt = Vertice(5, 5, 0)
-Vup = Vertice(5, 7, 2)
-camera = Camera(Eye, LookAt, Vup)
+Avup = Vertice(5, 7, 5)
+camera = Camera(Eye, LookAt, Avup)
 
 WC = camera.matrizWC()
-#obj.aplica(WC)
 piramide.aplica(WC)
+piramide2.aplica(WC)
 
 tamanho = 300
-tela = Screen(5, 10, 10, tamanho, tamanho)
+tela = Screen(5, 15, 15, tamanho, tamanho)
 luz = Pontual(10, 10, 10, 1, 1, 1, 1, 1, 1)
 
 cenario = Cenario(0.5, 0.5, 0.5)
 cenario.addObjeto(piramide)
+#cenario.addObjeto(piramide2)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
@@ -106,10 +119,6 @@ for i in cores:
 #converte cada valor com base no maior
 for i in cores:
     cores[i] = array(cores[i])*255 / max_value
-#imprime dicionario de cores convertidas
-'''for i in cores:
-    print(i, cores[i])
-'''
 
 img = Image.new("RGB", (tamanho, tamanho))
 

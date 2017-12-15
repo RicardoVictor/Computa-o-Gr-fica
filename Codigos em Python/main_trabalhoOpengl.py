@@ -215,10 +215,6 @@ def Base():
 
     glEnd()
 
-def inicializa():
-    glLoadIdentity()
-    gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
-
 
 ''' Variaveis de entrada '''
 #glRotate(angle, x, y, z) 
@@ -252,46 +248,60 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.5, 0.5, 0.5, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
 glTranslate(1, -7, -25)
 Objeto('objetos/stage.obj')
+glPopMatrix()
 
-inicializa()
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0, 0, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0, 0, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
 glTranslate(0, -3, -15)
 glRotate(90, 0, 1, 0)
 glScalef(0.7, 0.7, 0.7)
 Objeto('objetos/drums basic.obj')
+glPopMatrix()
 
-inicializa()
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.05, 0.1, 0.05, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.05, 0.1, 0.05, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
 glTranslatef(-3, -14, -50)
 glScalef(0.055, 1, 0.055)
 Cilindro()
+glPopMatrix()
 
-inicializa()
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
 glTranslate(-3, -2, -15)
 glScalef(0.7, 0.7, 0.7)
 Objeto('objetos/Synthesizer.obj')
+glPopMatrix()
 
-inicializa()
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
 glTranslatef(-2.8, 0.8, -10)
 glScalef(1.5, 1.5, 1.5)
 Objeto('objetos/Slayer logo.obj')
+glPopMatrix()
 
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
+glTranslate(0, 0, -10)
+Cube()
+glPopMatrix()
 
 ''' Loop '''
 while True:

@@ -1,4 +1,3 @@
-import pygame
 from numpy import array
 from PIL import Image
 from transformacoes import *
@@ -12,7 +11,6 @@ from Textura import Textura
 from ray_casting import renderizar
 
 
-'''
 def imprimeMatriz(matriz):
     for i in range(4):
         print('[', end="")
@@ -20,8 +18,7 @@ def imprimeMatriz(matriz):
             print('{:10.6f} '.format(matriz[i][j]), end="")
         print(']')
     print()
-    '''
-
+    
 def converte(valor):
     return int(valor[0:valor.find('/')])
 
@@ -51,59 +48,52 @@ def objeto(arquivo, textura):
     
     return obj
 
-Tt = Textura(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 1)
-stage = objeto('objetos/stage.obj', Tt)
-#stage = objeto('objetos/drums basic.obj', Tt)
-SStage = translacao(1, -7, -25)
 
+cubo = Objeto()
+cubo.addVertice(1, -1, -1)
+cubo.addVertice(1, 1, -1)
+cubo.addVertice(-1, 1, -1)
+cubo.addVertice(-1, -1, -1)
+cubo.addVertice(1, -1, 1)
+cubo.addVertice(1, 1, 1)
+cubo.addVertice(-1, 1, 1)
+cubo.addVertice(-1, -1, 1)
 
+T_cubo = translacao(0, 0, -10)
+cubo.aplica(T_cubo)
 
-tt = Textura(0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 1)
-logo = objeto('objetos/Slayer logo.obj', tt)
-TLogo = translacao(-2.8, 0.8, -10)
-SLogo = escala(1.5, 1.5, 1.5)
+textura_cubo = Textura(0.3, 0, 0, 0.3, 0, 0, 0.5, 0.5, 0.5, 1)
+cubo.addFace(cubo.vertices[0], cubo.vertices[2], cubo.vertices[1], textura_cubo)
+cubo.addFace(cubo.vertices[0], cubo.vertices[3], cubo.vertices[2], textura_cubo)
+cubo.addFace(cubo.vertices[4], cubo.vertices[5], cubo.vertices[6], textura_cubo)
+cubo.addFace(cubo.vertices[4], cubo.vertices[6], cubo.vertices[7], textura_cubo)
+cubo.addFace(cubo.vertices[2], cubo.vertices[3], cubo.vertices[6], textura_cubo)
+cubo.addFace(cubo.vertices[2], cubo.vertices[7], cubo.vertices[6], textura_cubo)
+cubo.addFace(cubo.vertices[0], cubo.vertices[1], cubo.vertices[5], textura_cubo)
+cubo.addFace(cubo.vertices[0], cubo.vertices[5], cubo.vertices[4], textura_cubo)
+cubo.addFace(cubo.vertices[1], cubo.vertices[2], cubo.vertices[6], textura_cubo)
+cubo.addFace(cubo.vertices[1], cubo.vertices[6], cubo.vertices[5], textura_cubo)
+cubo.addFace(cubo.vertices[0], cubo.vertices[4], cubo.vertices[7], textura_cubo)
+cubo.addFace(cubo.vertices[0], cubo.vertices[7], cubo.vertices[3], textura_cubo)
 
+Eye = Vertice(0.1, 0.1, 0.1)
+LookAt = Vertice(0.1, 0.1, -20)
+Avup = Vertice(0.1, 5, -10)
+camera = Camera(Eye, LookAt, Avup)
 
-'''
-S1 = escala(5*2**0.5/12, 5*2**0.5/8, 2**0.5)
-T1 = translacao(-7.07106781187, 0 , 0)
-R1 = rotacaoY(135)
-R2 = rotacaoX(-35.264387)
-R3 = rotacaoZ(40)
-'''
+cubo.aplica(camera.matrizWC())
 
+tamanho = 100
+tela = Screen(2, 5, 5, tamanho, tamanho)
+luz = Pontual(5, 5, 5, 1, 1, 1, 0.5, 0.5, 0.5)
 
-
-
-logo.aplica(TLogo @ SLogo)
-
-
-#arquivo = "objetos/Microphone.obj"
-#obj = objeto(arquivo, textura)
-Eye = Vertice(0, 0, 0)
-LookAt = Vertice(0, 0, -10)
-Vup = Vertice(0, 7, -5)
-camera = Camera(Eye, LookAt, Vup)
-
-WC = camera.matrizWC()
-#obj.aplica(WC)
-logo.aplica(WC)
-
-tamanho = 300
-tela = Screen(5, 10, 10, tamanho, tamanho)
-luz = Pontual(10, 10, 10, 1, 1, 1, 1, 1, 1)
-
-cenario = Cenario(0.5, 0.5, 0.5)
-cenario.addObjeto(logo)
+cenario = Cenario(1, 1, 1)
+cenario.addObjeto(cubo)
 cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
 #cenario.background_color = [100, 100, 200]
 cores = renderizar(cenario)
-
-#imprime dicionario de cores
-'''for i in cores:
-    print(i, cores[i])'''
 
 '''Convertendo o RGB de cores para valores entre 0 e 255'''
 max_value = -999999
@@ -111,14 +101,14 @@ max_value = -999999
 for i in cores:
     if(max_value < max(cores[i])):
         max_value = max(cores[i])
+
 #converte cada valor com base no maior
 for i in cores:
-    cores[i] = array(cores[i])*255 / max_value
-#imprime dicionario de cores convertidas
-'''for i in cores:
-    print(i, cores[i])
-'''
-
+    if(max_value != 0):
+        cores[i] = array(cores[i])*255 / max_value
+    else:
+        cores[i] = [0, 0, 0]
+        
 img = Image.new("RGB", (tamanho, tamanho))
 
 for i in cores:
@@ -126,4 +116,4 @@ for i in cores:
     y = int(i[i.find(' ')+1:])
     img.putpixel((x, y), (int(cores[i][0]), int(cores[i][1]), int(cores[i][2])))
 
-img.save("img.jpg")
+img.save("imagem.jpg")
