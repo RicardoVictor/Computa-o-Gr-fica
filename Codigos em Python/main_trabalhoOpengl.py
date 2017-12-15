@@ -78,7 +78,7 @@ def Cube():
 
     glBegin(GL_QUADS)
     for face in faces:
-        glColor3fv(color)
+        #glColor3fv(color)
         for vertex in face:
             glVertex3fv(vertices[vertex])
 
@@ -209,7 +209,7 @@ def Base():
 
     glBegin(GL_QUADS)
     for face in faces:
-        glColor3fv(color)
+        #glColor3fv(color)
         for vertex in face:
             glVertex3fv(vertices[vertex])
 
@@ -225,24 +225,78 @@ pygame.init()
 display = (1000, 600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
+gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
+glClearColor(0.1, 0.6, 0.9, 1) # cor de background
+glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+''' Camera '''
+# camera posicionada a direita
+#gluLookAt(60, 0, -25, 0, 0, -25, 10, 999999999999999999999, -25) # ordem de entrada: eye, look_at, Avup
+
 ''' Iluminacao '''
-glLightfv(GL_LIGHT0, GL_POSITION,  (2, 2, 2, 0.0))
+### AMBIENTE ###
+glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (0.5, 0.5, 0.5))
+
+### LUZ PONTUAL ###
+'''
+glEnable(GL_LIGHTING)
+glLightfv(GL_LIGHT0, GL_POSITION,  (0, 0, 2, 1))
 glLightfv(GL_LIGHT0, GL_AMBIENT, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT0, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
 glEnable(GL_LIGHT0)
-glEnable(GL_LIGHTING)
+'''
 #glEnable(GL_COLOR_MATERIAL)
-glShadeModel(GL_SMOOTH)
+#glShadeModel(GL_SMOOTH)
 #glShadeModel(GL_FLAT)
 #glEnable(GL_DEPTH_TEST)
 
 
-gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+### LUZES SPOT ###
 
-''' Transformacoes '''
-''' Material '''
+glPushMatrix()
+
+glEnable(GL_LIGHTING)
+glLightfv(GL_LIGHT0, GL_POSITION,  (-5, 0, -25))
+glLightfv(GL_LIGHT0, GL_AMBIENT, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT0, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
+glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
+glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
+glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 128) # força de foco
+glEnable(GL_LIGHT0)
+
+glLightfv(GL_LIGHT1, GL_POSITION,  (0, 0, -25))
+glLightfv(GL_LIGHT1, GL_AMBIENT, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT1, GL_DIFFUSE, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT1, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
+glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
+glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
+glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 128) # força de foco
+glEnable(GL_LIGHT1)
+
+glLightfv(GL_LIGHT2, GL_POSITION,  (5, 0, -25))
+glLightfv(GL_LIGHT2, GL_AMBIENT, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT2, GL_DIFFUSE, (1, 1, 1, 1.0))
+glLightfv(GL_LIGHT2, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
+glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
+glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
+glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 128) # força de foco
+glEnable(GL_LIGHT2)
+
+glPopMatrix()
+
+''' Objetos '''
+
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.2, 0.1, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.2, 0.1, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0, 0, 0, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
+glTranslate(0, -7, -10)
+glScale(10, 0, 10)
+Base()
+glPopMatrix()
 
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.5, 0.5, 0.5, 1])
@@ -258,9 +312,8 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0, 0, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslate(0, -3, -15)
+glTranslate(0, -5, -25)
 glRotate(90, 0, 1, 0)
-glScalef(0.7, 0.7, 0.7)
 Objeto('objetos/drums basic.obj')
 glPopMatrix()
 
@@ -269,7 +322,7 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.05, 0.1, 0.05, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslatef(-3, -14, -50)
+glTranslatef(-3, -14, -20)
 glScalef(0.055, 1, 0.055)
 Cilindro()
 glPopMatrix()
@@ -279,9 +332,20 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslate(-3, -2, -15)
+glTranslatef(-1.2, -2.5, -20)
+glRotate(-45, 1, 0, 0)
+glScalef(0.01, 0.01, 0.01)
+Objeto('objetos/mic.obj')
+glPopMatrix()
+
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
+glTranslate(-3, -4, -25)
 glScalef(0.7, 0.7, 0.7)
-Objeto('objetos/Synthesizer.obj')
+Objeto('objetos/teclado.obj')
 glPopMatrix()
 
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
@@ -289,19 +353,11 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslatef(-2.8, 0.8, -10)
-glScalef(1.5, 1.5, 1.5)
+glTranslatef(-3.5, 2.5, -18)
+glScalef(2, 2, 2)
 Objeto('objetos/Slayer logo.obj')
 glPopMatrix()
 
-glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
-glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
-glPushMatrix()
-glTranslate(0, 0, -10)
-Cube()
-glPopMatrix()
 
 ''' Loop '''
 while True:
