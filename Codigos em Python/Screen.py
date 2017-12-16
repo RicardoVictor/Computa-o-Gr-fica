@@ -1,8 +1,9 @@
-import Vertice
+from vertice import Vertice
 
 class Screen:
 
     def __init__(self, d, H, W, n, m):
+        self.d = d
         self.n = n
         self.m = m
         self.screen = []
@@ -16,7 +17,7 @@ class Screen:
             y = H/2 - Delta_y/2 - i * Delta_y
             for j in range(m):
                 x = -(W/2) + Delta_x/2 + j * Delta_x
-                self.screen[i][j] = Vertice.Vertice(x, y, -d)
+                self.screen[i][j] = Vertice(x, y, -d)
 
     def imprimirTela(self):
         for i in range(self.n):    

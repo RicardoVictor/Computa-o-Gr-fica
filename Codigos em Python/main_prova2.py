@@ -1,13 +1,14 @@
 from numpy import array
 from PIL import Image
 from transformacoes import *
+from ray_casting import renderizar
 from fontes import Pontual
-from Screen import Screen
-from Objeto import Objeto
-from Vertice import Vertice
-from Camera import Camera
-from Cenario import Cenario
-from Textura import Textura
+from screen import Screen
+from objeto import Objeto
+from vertice import Vertice
+from camera import Camera
+from cenario import Cenario
+from textura import Textura
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -94,7 +95,7 @@ cenario.addCamera(camera)
 cenario.addScreen(tela)
 cenario.addFonte(luz)
 #cenario.background_color = [4, 1, 2]
-cores = cenario.ray_casting()
+cores = renderizar(cenario)
 
 #Cores nao convertidas
 for i in cores:

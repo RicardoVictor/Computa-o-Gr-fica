@@ -16,8 +16,8 @@ def renderizar(cenario):
                     if delta >= 0:
                         t = (-B - delta**0.5) / (2*A)
                         
-                        #if t > 1:
-                        if t > 1 and t_min > t:
+                        if t > 1:
+                        #if t > 1 or t_min > t:
                             t_min = t
                             obj_int = obj
                             #print('i:{} j:{} t:{:.6f}'.format(i, j, t))

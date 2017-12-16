@@ -1,7 +1,7 @@
 from numpy import dot
-import Vertice
-import Face
-import Aura
+from vertice import Vertice
+from face import Face
+from aura import Aura
 
 class Objeto:
 
@@ -11,14 +11,14 @@ class Objeto:
 
     @property
     def aura(self):
-        return Aura.Aura(self)
+        return Aura(self)
 
     def addVertice(self, x, y, z):
-        vertice = Vertice.Vertice(x, y, z)
+        vertice = Vertice(x, y, z)
         self.vertices.append(vertice)
 
     def addFace(self, P1, P2, P3, textura):
-        face = Face.Face(P1, P2, P3, textura)
+        face = Face(P1, P2, P3, textura)
         self.faces.append(face)
 
     def imprimirVertices(self):

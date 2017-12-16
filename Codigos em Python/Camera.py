@@ -1,24 +1,17 @@
-from Vertice import Vertice
+from vertice import Vertice
 
 class Camera:
 
-    def __init__(self, xEye, yEye, zEye, xLookAt = None, yLookAt = None, zLookAt = None, xAvup = None, yAvup = None, zAvup = None):
-        if xLookAt is None:
-            self.i = []
-            self.j = []
-            self.k = []
-            self.Eye = xEye
-            self.LookAt = yEye
-            self.Avup = zEye
-            self.Vup = Vertice(self.Avup.x - self.Eye.x, self.Avup.y - self.Eye.y, self.Avup.z - self.Eye.z)
-        else:        
-            self.i = []
-            self.j = []
-            self.k = []
-            self.Eye = Vertice(xEye, yEye, zEye)
-            self.LookAt = Vertice(xLookAt, yLookAt, zLookAt)
-            self.Vup = Vertice(xAvup - xEye, yAvup - yEye, zAvup - zEye)
-
+    def __init__(self, Eye, LookAt, Avup):
+ 
+        self.i = []
+        self.j = []
+        self.k = []
+        self.Eye = Eye
+        self.LookAt = LookAt
+        self.Avup = Avup
+        self.Vup = Vertice(self.Avup.x - self.Eye.x, self.Avup.y - self.Eye.y, self.Avup.z - self.Eye.z)
+        
         self.calcula_k()
         self.calcula_i()
         self.calcula_j()

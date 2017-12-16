@@ -1,5 +1,5 @@
 from transformacoes import *
-import Objeto
+from objeto import Objeto
 
 def imprimeMatriz(matriz):
     for i in range(4):
@@ -10,7 +10,7 @@ def imprimeMatriz(matriz):
     print()
 
 
-o = Objeto.Objeto()
+o = Objeto()
 o.addVertice(0, 0, 0)
 o.addVertice(0, 0, 5)
 o.addVertice(12, 0, 0)

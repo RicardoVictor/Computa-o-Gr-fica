@@ -3,6 +3,13 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+''' Variaveis de entrada '''
+#glOrtho(left,right,bottom,top,near,far)
+#glFrustum(left,right,bottom,top,near,far)
+#gluPerspective(ang, aspect, zNear, zFar)
+#glRotate(angle, x, y, z)
+#gluLookAt(eye, look_at, Avup)
+
 def converte(valor):
     return int(valor[0:valor.find('/')])
 
@@ -215,25 +222,49 @@ def Base():
 
     glEnd()
 
+def projecao_ortogonal():    
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+    glOrtho(-15, 15, -15, 15, 15, 50)
+    glClearColor(0.1, 0.6, 0.9, 1) # cor de background
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-''' Variaveis de entrada '''
-#glRotate(angle, x, y, z) 
-#gluPerspective(ang, aspect, zNear, zFar)
+def projecao_perspectiva():    
+    pygame.init()
+    display = (1000, 600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+    gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
+    glClearColor(0.1, 0.6, 0.9, 1) # cor de background
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+def projecao_obliqua():    
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+    glFrustum(-15, 15, -15, 15, 15, 50)
+    glClearColor(0.1, 0.6, 0.9, 1) # cor de background
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    
 
 ''' Inicio '''
-pygame.init()
-display = (1000, 600)
-pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+projecao_ortogonal()
+#projecao_perspectiva()
+#projecao_frustum()
 
-gluPerspective(45, (display[0]/display[1]), 0.1, 100.0)
-glClearColor(0.1, 0.6, 0.9, 1) # cor de background
-glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+#glMatrixMode(GL_PROJECTION)
+#projecao = [[0]*4 for i in range(4)]
 
-''' Camera '''
-# camera posicionada a direita
-#gluLookAt(60, 0, -25, 0, 0, -25, 10, 999999999999999999999, -25) # ordem de entrada: eye, look_at, Avup
 
-''' Iluminacao '''
+''' CAMERAS '''
+'''camera osicionada a direita'''
+#gluLookAt(30, 0, -25, 0, 0, -25, 10, 999999999999999999999, -25)
+'''camera posicionada a esquerda'''
+#gluLookAt(-30, 0, -25, 0, 0, -25, 10, 999999999999999999999, -25)
+'''camera posicionada acima'''
+#gluLookAt(0, 30, -25, 0, 0, -25, 0, -25, -30)
+
+''' ILUMINACAO '''
 ### AMBIENTE ###
 glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (0.5, 0.5, 0.5))
 
@@ -255,9 +286,8 @@ glEnable(GL_LIGHT0)
 ### LUZES SPOT ###
 
 glPushMatrix()
-
 glEnable(GL_LIGHTING)
-glLightfv(GL_LIGHT0, GL_POSITION,  (-5, 0, -25))
+glLightfv(GL_LIGHT0, GL_POSITION,  (-5, 0, -17))
 glLightfv(GL_LIGHT0, GL_AMBIENT, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT0, GL_DIFFUSE, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT0, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
@@ -265,8 +295,10 @@ glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
 glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
 glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 128) # força de foco
 glEnable(GL_LIGHT0)
+glPopMatrix()
 
-glLightfv(GL_LIGHT1, GL_POSITION,  (0, 0, -25))
+glPushMatrix()
+glLightfv(GL_LIGHT1, GL_POSITION,  (0, 0, -17))
 glLightfv(GL_LIGHT1, GL_AMBIENT, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT1, GL_DIFFUSE, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT1, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
@@ -274,8 +306,10 @@ glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
 glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
 glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 128) # força de foco
 glEnable(GL_LIGHT1)
+glPopMatrix()
 
-glLightfv(GL_LIGHT2, GL_POSITION,  (5, 0, -25))
+glPushMatrix()
+glLightfv(GL_LIGHT2, GL_POSITION,  (5, 0, -17))
 glLightfv(GL_LIGHT2, GL_AMBIENT, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT2, GL_DIFFUSE, (1, 1, 1, 1.0))
 glLightfv(GL_LIGHT2, GL_SPECULAR, (0.5, 0.5, 0.5, 1.0))
@@ -283,7 +317,6 @@ glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 2.0); # angulo de abertura
 glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, (0, -1, 0)) # direção 
 glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 128) # força de foco
 glEnable(GL_LIGHT2)
-
 glPopMatrix()
 
 ''' Objetos '''
@@ -294,7 +327,7 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0, 0, 0, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
 glTranslate(0, -7, -10)
-glScale(10, 0, 10)
+glScale(30, 10, 30)
 Base()
 glPopMatrix()
 
@@ -312,19 +345,19 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0, 0, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslate(0, -5, -25)
+glTranslate(0, -5.6, -25)
 glRotate(90, 0, 1, 0)
 Objeto('objetos/drums basic.obj')
 glPopMatrix()
 
-glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.05, 0.1, 0.05, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.05, 0.1, 0.05, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslatef(-3, -14, -20)
-glScalef(0.055, 1, 0.055)
-Cilindro()
+glTranslate(-5, -4, -25)
+glScalef(0.7, 0.7, 0.7)
+Objeto('objetos/teclado.obj')
 glPopMatrix()
 
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
@@ -338,16 +371,6 @@ glScalef(0.01, 0.01, 0.01)
 Objeto('objetos/mic.obj')
 glPopMatrix()
 
-glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.1, 0.1, 0.1, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.1, 0.1, 0.1, 1])
-glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
-glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
-glPushMatrix()
-glTranslate(-3, -4, -25)
-glScalef(0.7, 0.7, 0.7)
-Objeto('objetos/teclado.obj')
-glPopMatrix()
-
 glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
@@ -358,6 +381,15 @@ glScalef(2, 2, 2)
 Objeto('objetos/Slayer logo.obj')
 glPopMatrix()
 
+glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.3, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
+glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
+glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
+glPushMatrix()
+glTranslatef(0, -10, -15)
+glScalef(0.5, 0, 0.5)
+Objeto('objetos/cilindro.obj')
+glPopMatrix()
 
 ''' Loop '''
 while True:
@@ -396,13 +428,6 @@ while True:
 '''
 
     #glRotatef(1, 3, 1, 1)
-    
-    '''MODELVIEW_MATRIX = glGetDoublev(GL_MODELVIEW_MATRIX)
-    print(MODELVIEW_MATRIX)
-    camera_x = MODELVIEW_MATRIX[3][0]
-    camera_y = MODELVIEW_MATRIX[3][1]
-    camera_z = MODELVIEW_MATRIX[3][2]
-    '''
 
     #glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     pygame.display.flip()
