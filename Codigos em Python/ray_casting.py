@@ -6,8 +6,9 @@ def renderizar(cenario):
             for j in range(cenario.screen.m):
                 t_min = 9999999
                 obj_int = -1
+
+                '''Verifica intersecao com a aura'''
                 for obj in range(len(cenario.objetos)):
-                    
                     A = cenario.screen.screen[i][j].x**2 + cenario.screen.screen[i][j].y**2 + cenario.screen.screen[i][j].z**2
                     B = -2 * (cenario.screen.screen[i][j].x * cenario.objetos[obj].aura.centro.x + cenario.screen.screen[i][j].y * cenario.objetos[obj].aura.centro.y + cenario.screen.screen[i][j].z * cenario.objetos[obj].aura.centro.z)
                     C = cenario.objetos[obj].aura.centro.x**2 + cenario.objetos[obj].aura.centro.y**2 + cenario.objetos[obj].aura.centro.z**2 - cenario.objetos[obj].aura.raio**2
@@ -23,19 +24,21 @@ def renderizar(cenario):
                             #print('i:{} j:{} t:{:.6f}'.format(i, j, t))
 
                 #---valor final de t(igual a t_min) para determinado Pij e objeto obj(igual a obj_int)
-                
+               
                 Pij = []
                 Pij.append(cenario.screen.screen[i][j].x)
                 Pij.append(cenario.screen.screen[i][j].y)
                 Pij.append(cenario.screen.screen[i][j].z)
                 
+                # v = Pij - Po(0, 0, 0)
                 v = Pij
                 v = normalizar(v)
 
+                ''' Backface culling '''
                 for face in range(len(cenario.objetos[obj_int].faces)):
                     #v_prod_esc_n = produto_escalar(v, cenario.objetos[obj_int].faces[face].normal)
                     v_prod_esc_n = v[0] * cenario.objetos[obj_int].faces[face].normal[0] + v[1] * cenario.objetos[obj_int].faces[face].normal[1] + v[2] * cenario.objetos[obj_int].faces[face].normal[2]
-                    #backface culling
+
                     if v_prod_esc_n < 0:
                         #P1_prod_esc_n = produto_escalar(cenario.objetos[obj_int].faces[face].P1, cenario.objetos[obj_int].faces[face].normal)
                         P1_prod_esc_n = cenario.objetos[obj_int].faces[face].P1.x * cenario.objetos[obj_int].faces[face].normal[0] + cenario.objetos[obj_int].faces[face].P1.y * cenario.objetos[obj_int].faces[face].normal[1] + cenario.objetos[obj_int].faces[face].P1.z * cenario.objetos[obj_int].faces[face].normal[2]
@@ -49,7 +52,7 @@ def renderizar(cenario):
                         P_int.append(Pij[1] * t_int)
                         P_int.append(Pij[2] * t_int)
 
-                        # testar se Pij esta na face
+                        '''Testa se P_int esta na face'''
                         w1 = []
                         w1.append(cenario.objetos[obj_int].faces[face].P1.x - P_int[0])
                         w1.append(cenario.objetos[obj_int].faces[face].P1.y - P_int[1])
@@ -80,6 +83,7 @@ def renderizar(cenario):
                         v3.append(w3[2] * w1[0] - w3[0] * w1[2])
                         v3.append(w3[0] * w1[1] - w3[1] * w1[0])
 
+                        '''Se P_int estiver na face, procurar RGB correspondente'''
                         if (cenario.objetos[obj_int].faces[face].normal[0] * v1[0] > 0) and (cenario.objetos[obj_int].faces[face].normal[0] * v2[0] > 0)  and (cenario.objetos[obj_int].faces[face].normal[0] * v3[0] > 0):
                             #print('face:', face)
                             #print(Pij)
@@ -92,13 +96,16 @@ def renderizar(cenario):
                             I_fontes.append(0)
                             I_fontes.append(0)
                             for fonte in range(len(cenario.fontes)):
-                                #v2: -P_int unitario
-                                v2 = []
-                                v2.append(-P_int[0])
-                                v2.append(-P_int[1])
-                                v2.append(-P_int[2])
-                                v2 = normalizar(v2)
                                 
+                                #v_2: vetor de reflexao especular nao direto/ intencidade
+                                #v_2: -P_int unitario
+                                v_2 = []
+                                v_2.append(-P_int[0])
+                                v_2.append(-P_int[1])
+                                v_2.append(-P_int[2])
+                                v_2 = normalizar(v2)
+                                
+                                #l: vetor de reflexao difusa
                                 #l: vetor (Fonte - P_int) unitario
                                 l = []
                                 l.append(cenario.fontes[fonte].fx - P_int[0])
@@ -106,6 +113,7 @@ def renderizar(cenario):
                                 l.append(cenario.fontes[fonte].fz - P_int[2])
                                 l = normalizar(l)
                                 
+                                #r: vetor de reflexao especular, direto / centro
                                 #r: 2*n*(l . n) - l
                                 r = []
                                 #l_prod_esc_n = produto_escalar(l, cenario.objetos[obj_int].faces[face].normal)
@@ -117,7 +125,7 @@ def renderizar(cenario):
                                 #n_prod_esc_l = produto_escalar(cenario.objetos[obj_int].faces[face].normal, l)
                                 n_prod_esc_l = cenario.objetos[obj_int].faces[face].normal[0] * l[0] + cenario.objetos[obj_int].faces[face].normal[1] * l[1] + cenario.objetos[obj_int].faces[face].normal[2] * l[2]
                                 #v2_prod_esc_r = produto_escalar(v2, r)
-                                v2_prod_esc_r = v2[0] * r[0] + v2[1] * r[1] + v2[2] * r[2]
+                                v2_prod_esc_r = v_2[0] * r[0] + v_2[1] * r[1] + v_2[2] * r[2]
 
                                 #print(cenario.objetos[obj_int].faces[face].normal)
                                 #print(l)

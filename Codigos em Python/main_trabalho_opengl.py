@@ -60,7 +60,7 @@ def Objeto(arquivo, cor=None):
     glEnd()
     
 
-def Cube():
+def Cubo():
     color = (0.6, 0.6, 0.6)
 
     vertices = (
@@ -248,8 +248,8 @@ def projecao_obliqua():
     
 
 ''' Inicio '''
-projecao_ortogonal()
-#projecao_perspectiva()
+#projecao_ortogonal()
+projecao_perspectiva()
 #projecao_frustum()
 
 #glMatrixMode(GL_PROJECTION)
@@ -386,7 +386,7 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.3, 0.0, 0.0, 1])
 glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.5, 0.5, 0.5, 1])
 glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 glPushMatrix()
-glTranslatef(0, -10, -15)
+glTranslatef(0, 0, -15)
 glScalef(0.5, 0, 0.5)
 Objeto('objetos/cilindro.obj')
 glPopMatrix()
